@@ -1,0 +1,84 @@
+<% layout('layouts/boilerplate') -%>
+
+    <div class="layout">
+
+        <%- include("../includes/sidebar", { active: "attendance" }) %>
+
+            <div class="main">
+
+                <%- include("../includes/navbar", { user }) %>
+
+                    <div class="content">
+
+                        <!-- Header -->
+                        <h2>Attendance 📅</h2>
+                        <p class="subtitle">Track your monthly attendance record</p>
+
+                        <!-- Stats -->
+                        <div class="attendance-stats">
+                            <div class="stat-card present">
+                                <div class="icon">✓</div>
+                                <div>
+                                    <h3>
+                                        <%= present %>
+                                    </h3>
+                                    <span>Days Present</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card absent">
+                                <div class="icon">✕</div>
+                                <div>
+                                    <h3>
+                                        <%= absent %>
+                                    </h3>
+                                    <span>Days Absent</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card rate">
+                                <div class="icon">%</div>
+                                <div>
+                                    <h3>
+                                        <%= rate %>%
+                                    </h3>
+                                    <span>Attendance Rate</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Calendar -->
+                        <div class="calendar-card">
+                            <div class="calendar-header">
+                                <h4>
+                                    <%= monthName %>
+                                        <%= year %>
+                                </h4>
+                            </div>
+
+                            <div class="calendar-grid">
+                                <% calendar.forEach(day=> { %>
+                                    <div class="day 
+                                            <%= day.status %> 
+                                            <%= day.isToday ? 'today' : '' %>">
+                                        <span>
+                                            <%= day.day %>
+                                        </span>
+
+                                        <% if (day.status==="present" ) { %> ✓ <% } %>
+                                                <% if (day.status==="absent" ) { %> ✕ <% } %>
+                                    </div>
+                                    <% }) %>
+                            </div>
+
+                            <div class="calendar-legend">
+                                <span>✓ Present</span>
+                                <span>✕ Absent</span>
+                                <span class="today-box"></span> Today
+                            </div>
+                        </div>
+
+                    </div>
+
+            </div>
+    </div>

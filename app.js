@@ -13,6 +13,7 @@ const connectDB = require('./config/db');
 const studentDashboardRoutes = require('./routes/Students/dashboard');
 const adminDashboardRoutes = require('./routes/admins/dashboard');
 const menuRoutes = require('./routes/Students/menuRoute');
+const attendanceRoutes = require('./routes/Students/attendance');
 
 connectDB();
 
@@ -63,6 +64,7 @@ app.use('/', authRoutes);
 app.use('/students', studentDashboardRoutes);
 app.use('/admin', adminDashboardRoutes);
 app.use("/student",menuRoutes);
+app.use("/student",attendanceRoutes);
 
 
 app.use((err, req, res, next) => {
