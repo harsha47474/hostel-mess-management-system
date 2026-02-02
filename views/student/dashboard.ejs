@@ -2,17 +2,17 @@
 
 <div class="layout">
 
-    <!-- Sidebar -->
-    <%- include("../includes/sidebar") %>
 
-    <!-- Main Content -->
+    <%- include("../includes/sidebar",{ active: "dashboard" }) %>
+
+
     <div class="main">
       <%- include("../includes/navbar", { user }) %>
       <div class="content">
         <h2>Welcome back, <%= user.username %>! 👋</h2>
         <p class="subtitle">What would you like to do today?</p>
 
-        <!-- Quick cards -->
+
         <div class="card-grid cursor-pointer">
           <div class="action-card green cursor-pointer" onclick="location.href='/student/menu'">
             <div class="icon">🍽️</div>
@@ -39,7 +39,7 @@
           </div>
         </div>
 
-        <!-- Info cards -->
+
         <div class="info-grid">
           <div class="info-card">
             <small>Today's Menu</small>

@@ -1,0 +1,60 @@
+/* Weekly Menu Card */
+.menu-card {
+  background: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 18px;
+  padding: 1.8rem;
+  max-width: 1000px;
+}
+
+/* Header */
+.menu-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.menu-icon {
+  width: 44px;
+  height: 44px;
+  background: #e8f5f0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Table */
+.menu-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.menu-table th {
+  text-align: left;
+  padding: 14px 10px;
+  color: #6b7c8f;
+  font-weight: 600;
+  border-bottom: 1px solid #e6edf3;
+}
+
+.menu-table td {
+  padding: 16px 10px;
+  border-bottom: 1px solid #f0f3f7;
+  color: #2c3e50;
+}
+
+/* Today Highlight */
+.today-row {
+  background: #f6fbfa;
+}
+
+.today-badge {
+  background: #2f9e84;
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 8px;
+  margin-left: 8px;
+}

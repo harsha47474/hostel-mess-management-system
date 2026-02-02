@@ -1,0 +1,59 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="layout">
+
+    <%- include("../includes/sidebar", { active: "menu" }) %>
+
+        <div class="main">
+
+            <%- include("../includes/navbar", { user }) %>
+
+                <div class="content">
+
+                    <div class="menu-card">
+                        <div class="menu-header">
+                            <div class="menu-icon">🍽️</div>
+                            <h3>Weekly Mess Menu</h3>
+                        </div>
+
+                        <table class="menu-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Breakfast</th>
+                                    <th>Lunch</th>
+                                    <th>Dinner</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <% menu.forEach(item=> { %>
+                                    <tr class="<%= item.isToday ? 'today-row' : '' %>">
+                                        <td>
+                                            <strong>
+                                                <%= item.day %>
+                                            </strong>
+                                            <% if (item.isToday) { %>
+                                                <span class="today-badge">Today</span>
+                                                <% } %>
+                                        </td>
+                                        <td>
+                                            <%= item.breakfast %>
+                                        </td>
+                                        <td>
+                                            <%= item.lunch %>
+                                        </td>
+                                        <td>
+                                            <%= item.dinner %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+        </div>
+</div>

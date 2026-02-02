@@ -10,20 +10,25 @@
   <p class="nav-title">Navigation</p>
 
   <ul class="nav-list">
-    <li class="active">
-      <a href="/dashboard">🏠 Dashboard</a>
-    </li>
-    <li>
-      <a href="/student/menu">🍽️ Mess Menu</a>
-    </li>
-    <li>
-      <a href="/student/attendance">📅 Attendance</a>
-    </li>
-    <li>
-      <a href="/student/billing">💰 Bill Tracking</a>
-    </li>
-    <li>
-      <a href="/student/complaints">💬 Complaints</a>
-    </li>
-  </ul>
+  <li class="<%= active === 'dashboard' ? 'active' : '' %>">
+    <a href="/students/dashboard">🏠 Dashboard</a>
+  </li>
+
+  <li class="<%= active === 'menu' ? 'active' : '' %>">
+    <a href="/student/menu">🍽️ Mess Menu</a>
+  </li>
+
+  <li class="<%= active === 'attendance' ? 'active' : '' %>">
+    <a href="/student/attendance">📅 Attendance</a>
+  </li>
+
+  <li class="<%= active === 'billing' ? 'active' : '' %>">
+    <a href="/student/billing">💰 Bill Tracking</a>
+  </li>
+
+  <li class="<%= active === 'complaints' ? 'active' : '' %>">
+    <a href="/student/complaints">💬 Complaints</a>
+  </li>
+</ul>
+
 </div>

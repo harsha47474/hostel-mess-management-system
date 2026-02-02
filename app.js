@@ -12,6 +12,7 @@ const flashMiddleware = require('./middlewares/flash');
 const connectDB = require('./config/db');
 const studentDashboardRoutes = require('./routes/Students/dashboard');
 const adminDashboardRoutes = require('./routes/admins/dashboard');
+const menuRoutes = require('./routes/Students/menuRoute');
 
 connectDB();
 
@@ -61,6 +62,7 @@ app.use(flashMiddleware);
 app.use('/', authRoutes);
 app.use('/students', studentDashboardRoutes);
 app.use('/admin', adminDashboardRoutes);
+app.use("/student",menuRoutes);
 
 
 app.use((err, req, res, next) => {
