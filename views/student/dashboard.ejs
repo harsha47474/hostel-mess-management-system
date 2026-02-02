@@ -1,0 +1,65 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <%- include("../includes/sidebar") %>
+
+    <!-- Main Content -->
+    <div class="main">
+      <%- include("../includes/navbar", { user }) %>
+      <div class="content">
+        <h2>Welcome back, <%= user.username %>! 👋</h2>
+        <p class="subtitle">What would you like to do today?</p>
+
+        <!-- Quick cards -->
+        <div class="card-grid cursor-pointer">
+          <div class="action-card green cursor-pointer" onclick="location.href='/student/menu'">
+            <div class="icon">🍽️</div>
+            <h5>Mess Menu</h5>
+            <p>View weekly food menu</p>
+          </div>
+
+          <div class="action-card blue cursor-pointer" onclick="location.href='/student/attendance'">
+            <div class="icon">📅</div>
+            <h5>Attendance</h5>
+            <p>Mark daily attendance</p>
+          </div>
+
+          <div class="action-card orange cursor-pointer" onclick="location.href='/student/billing'">
+            <div class="icon">💰</div>
+            <h5>Bill Tracking</h5>
+            <p>Check payments & dues</p>
+          </div>
+
+          <div class="action-card purple cursor-pointer" onclick="location.href='/student/complaints'">
+            <div class="icon">💬</div>
+            <h5>Complaints</h5>
+            <p>Raise & track complaints</p>
+          </div>
+        </div>
+
+        <!-- Info cards -->
+        <div class="info-grid">
+          <div class="info-card">
+            <small>Today's Menu</small>
+            <h5>Biryani Special 🍛</h5>
+            <p>Lunch: Biryani, Raita</p>
+          </div>
+
+          <div class="info-card">
+            <small>Attendance Status</small>
+            <h5>All Meals ✓</h5>
+            <p>You're attending all meals today</p>
+          </div>
+
+          <div class="info-card">
+            <small>Pending Dues</small>
+            <h5>₹2,500</h5>
+            <p>Due by Feb 15, 2026</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
