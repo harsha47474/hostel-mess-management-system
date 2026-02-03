@@ -1,0 +1,60 @@
+<% layout('layouts/boilerplate') -%>
+
+    <div class="layout">
+
+        <%- include("../includes/sidebar", { active: "billing" }) %>
+
+            <div class="main">
+
+                <%- include("../includes/navbar", { user }) %>
+                    <div class="content">
+
+                        <!-- Header -->
+                        <h2>Bill Tracking 💰</h2>
+                        <p class="subtitle">Manage your mess payments</p>
+
+                        <!-- Total Pending -->
+                        <div class="billing-summary">
+                            <div>
+                                <span class="summary-title">Total Pending</span>
+                                <h1 class="summary-amount">₹<%= totalPending %></h1>
+                            </div>
+                            <div class="summary-icon">💳</div>
+                        </div>
+
+                        <!-- Bills List -->
+                        <div class="bill-card">
+                            <% if (bills.length===0) { %>
+                                <div class="alert alert-info">No bills available yet.</div>
+                                <% } else { %>
+
+                                    <% bills.forEach(bill=> { %>
+                                        <div class="bill-row">
+                                            <div>
+                                                <h4>
+                                                    <%= bill.month %>
+                                                        <%= bill.year %>
+                                                </h4>
+                                                <% if (bill.status==='pending' ) { %>
+                                                    <p class="bill-sub">Due: <%= bill.month %>, <%= bill.year %>
+                                                    </p>
+                                                    <% } else { %>
+                                                        <p class="bill-sub">Paid: <%= bill.month %>, <%= bill.year %>
+                                                        </p>
+                                                        <% } %>
+                                            </div>
+                                            <div class="bill-right">
+                                                <span class="bill-amount">₹<%= bill.amount %></span>
+                                                <span class="status <%= bill.status %>">
+                                                    <%= bill.status %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                            <% } %>
+                        </div>
+
+                    </div>
+
+            </div>
+    </div>
