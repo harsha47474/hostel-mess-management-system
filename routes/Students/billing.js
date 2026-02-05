@@ -6,7 +6,7 @@ const wrapAsync = require('../../utils/wrapAsync');
 const Attendance = require('../../models/attendance');
 const Bill = require('../../models/bills');
 
-router.get('/billing', isLoggedIn, isStudent, async (req, res) => {
+router.get('/billing', isLoggedIn, isStudent, wrapAsync(async (req, res) => {
     const today = new Date();
     let year = today.getFullYear();
     let month = today.getMonth();
@@ -54,10 +54,9 @@ router.get('/billing', isLoggedIn, isStudent, async (req, res) => {
     const totalPending = bills
         .filter(b => b.status === 'pending')
         .reduce((sum, b) => sum + b.amount, 0);
-    req.locals.totalPending = totalPending;    
 
     res.render('student/billing.ejs', { user: req.user, bills, totalPending });
-});
+}));
 
 
 
