@@ -54,6 +54,7 @@ router.get('/billing', isLoggedIn, isStudent, async (req, res) => {
     const totalPending = bills
         .filter(b => b.status === 'pending')
         .reduce((sum, b) => sum + b.amount, 0);
+    req.locals.totalPending = totalPending;    
 
     res.render('student/billing.ejs', { user: req.user, bills, totalPending });
 });
