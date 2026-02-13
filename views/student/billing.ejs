@@ -17,7 +17,13 @@
                         <div class="billing-summary">
                             <div>
                                 <span class="summary-title">Total Pending</span>
-                                <h1 class="summary-amount">₹<%= totalPending %></h1>
+                                <h1 class="summary-amount">
+                                    <% if (typeof totalPending !=='undefined' && totalPending> 0) { %>
+                                        ₹<%= totalPending %>
+                                            <% } else { %>
+                                                ₹0
+                                                <% } %>
+                                </h1>
                             </div>
                             <div class="summary-icon">💳</div>
                         </div>

@@ -6,7 +6,7 @@ const billSchema = new mongoose.Schema({
   year: { type: Number, required: true },
   amount: { type: Number, required: true },
   status: { type: String, enum: ['pending', 'paid'], default: 'pending' },
-  createdAt: { type: Date, default: Date.now }
+  updatedAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Bill', billSchema);

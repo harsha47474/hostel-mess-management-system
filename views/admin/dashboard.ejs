@@ -1,0 +1,93 @@
+<% layout('layouts/boilerplate') -%>
+
+    <div class="layout">
+        <%- include("../includes/adminSidebar", { active: "dashboard" , role: "admin" }) %>
+
+            <div class="main">
+                <%- include("../includes/adminNavbar", { user }) %>
+
+                    <div class="content">
+                        <h2>Admin Dashboard 📊</h2>
+                        <p class="subtitle">Overview of hostel mess management</p>
+
+                        <!-- Stats Cards -->
+                        <div class="admin-cards">
+
+                            <div class="admin-card">
+                                <div class="card-top">
+                                    <span>Total Students</span>
+                                    <span class="card-icon">🎓</span>
+                                </div>
+                                <h1>
+                                    <%= totalStudents %>
+                                </h1>
+                                <p class="card-sub">+12 this month</p>
+                            </div>
+
+                            <div class="admin-card">
+                                <div class="card-top">
+                                    <span>Pending Bills</span>
+                                    <span class="card-icon">💰</span>
+                                </div>
+                                <h1>₹<%= totalPendingBills %>
+                                </h1>
+                                <p class="card-sub">
+                                    <%= totalStudents %>
+                                </p>
+                            </div>
+
+                            <div class="admin-card">
+                                <div class="card-top">
+                                    <span>Complaints Pending</span>
+                                    <span class="card-icon">💬</span>
+                                </div>
+                                <h1>
+                                    <%= pendingComplaints %>
+                                </h1>
+                                <p class="card-sub">3 urgent</p>
+                            </div>
+
+                            <div class="admin-card">
+                                <div class="card-top">
+                                    <span>Overall Attendance</span>
+                                    <span class="card-icon">📅</span>
+                                </div>
+                                <h1>
+                                    <%= attendanceRate %>%
+                                </h1>
+                                <p class="card-sub">This month</p>
+                            </div>
+
+                        </div>
+
+                        <div class="activity-section">
+                            <h3>Recent Activity</h3>
+
+                            <% if (activities.length===0) { %>
+                                <p>No recent activity yet.</p>
+                                <% } else { %>
+                                    <% activities.forEach(a=> { %>
+                                        <div class="activity-item">
+                                            <div>
+                                                <strong>
+                                                    <%= a.message %>
+                                                </strong>
+                                                <p>by <%= a.by %>
+                                                </p>
+                                            </div>
+                                            <span>
+                                                <% if (a.time) { %>
+                                                    <%= new Date(a.time).toLocaleString() %>
+                                                        <% } else { %>
+                                                            N/A
+                                                            <% } %>
+                                            </span>
+                                        </div>
+                                        <% }) %>
+                                            <% } %>
+                        </div>
+
+                    </div>
+
+            </div>
+    </div>

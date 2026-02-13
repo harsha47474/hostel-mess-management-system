@@ -64,7 +64,7 @@ app.use(flashMiddleware);
 //routes
 app.use('/', authRoutes);
 app.use('/students', studentDashboardRoutes);
-app.use('/admin', adminDashboardRoutes);
+app.use('/admins', adminDashboardRoutes);
 app.use("/student",menuRoutes);
 app.use("/student",attendanceRoutes);
 app.use("/student",billingRoutes);

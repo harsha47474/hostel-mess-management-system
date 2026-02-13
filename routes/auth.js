@@ -15,7 +15,7 @@ router.post("/login", passport.authenticate("local", {
     failureFlash: true
 }), (req, res) => {
     if (req.user.role === 'admin') {
-        return res.redirect('/admin/dashboard');
+        return res.redirect('/admins/dashboard');
     } else if (req.user.role === 'student') {
         return res.redirect('/students/dashboard');
     }
