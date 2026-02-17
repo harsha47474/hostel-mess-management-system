@@ -12,6 +12,7 @@
   "type": "commonjs",
   "dependencies": {
     "connect-flash": "^0.1.1",
+    "crypto": "^1.0.1",
     "ejs-mate": "^4.0.0",
     "express": "^5.2.1",
     "express-session": "^1.19.0",
@@ -20,6 +21,7 @@
     "mongoose": "^9.1.5",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^9.0.1"
+    "passport-local-mongoose": "^9.0.1",
+    "qrcode": "^1.5.4"
   }
 }

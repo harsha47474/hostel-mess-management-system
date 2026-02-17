@@ -16,6 +16,8 @@ const menuRoutes = require('./routes/Students/menuRoute');
 const attendanceRoutes = require('./routes/Students/attendance');
 const billingRoutes = require('./routes/Students/billing');
 const complaintsRoutes = require('./routes/Students/complaints');
+const studentListRoutes = require('./routes/admins/listStudents');
+const scanRoutes = require('./routes/admins/scan');
 
 connectDB();
 
@@ -61,10 +63,15 @@ passport.deserializeUser(User.deserializeUser());
 //flash middleware
 app.use(flashMiddleware);
 
+app.use(express.json());
+
+
 //routes
 app.use('/', authRoutes);
 app.use('/students', studentDashboardRoutes);
 app.use('/admins', adminDashboardRoutes);
+app.use('/admins', studentListRoutes);
+app.use("/admins", scanRoutes);
 app.use("/student",menuRoutes);
 app.use("/student",attendanceRoutes);
 app.use("/student",billingRoutes);

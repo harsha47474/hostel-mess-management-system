@@ -1,0 +1,81 @@
+<% layout('layouts/boilerplate') -%>
+
+    <div class="layout">
+        <%- include("../includes/adminSidebar", { active: "students" , role: "admin" }) %>
+            <div class="main">
+                <%- include("../includes/adminNavbar", { user }) %>
+
+                    <div class="content">
+
+                        <!-- Header -->
+                        <div class="students-header">
+                            <div>
+                                <h2>Students 🎓</h2>
+                                <p class="subtitle">Manage all registered students</p>
+                            </div>
+
+                            <a href="/admins/students/new" class="add-student-btn">
+                                + Add Student
+                            </a>
+                        </div>
+
+                        <!-- Students Card -->
+                        <div class="students-card">
+
+                            <!-- Search Bar -->
+                            <div class="students-search">
+                                <input type="text" placeholder="Search students..." />
+                            </div>
+
+                            <% if (students.length===0) { %>
+                                <p class="empty-text">No students registered yet.</p>
+                                <% } else { %>
+
+                                    <table class="students-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Roll Number</th>
+                                                <th>Email</th>
+                                                <th class="actions-col">Actions</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <% students.forEach(s=> { %>
+                                                <tr>
+                                                    <td><strong>
+                                                            <%= s.username %>
+                                                        </strong></td>
+                                                    <td>
+                                                        <%= s.rollNumber %>
+                                                    </td>
+                                                    <td>
+                                                        <%= s.email %>
+                                                    </td>
+                                                    <td class="actions d-flex align-items-center">
+                                                        <a href="/admins/students/<%= s._id %>/edit"
+                                                            class="icon-btn edit-btn fs-4">
+                                                            ✏️
+                                                        </a>
+
+                                                        <form method="POST"
+                                                            action="/admins/students/<%= s._id %>?_method=DELETE"
+                                                            style="display:inline;">
+                                                            <button type="submit" class="icon-btn delete-btn fs-4">
+                                                                🗑
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+
+                                    <% } %>
+
+                        </div>
+                    </div>
+
+            </div>
+    </div>

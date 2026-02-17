@@ -1,0 +1,27 @@
+<h2>Scan Student QR</h2>
+<div id="reader" style="width:300px;"></div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+    function onScanSuccess(decodedText) {
+        fetch("/admins/scan", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ token: decodedText })
+        })
+        .then(res => res.text())
+        .then(data => {
+            alert(data);
+        });
+    }
+
+    const html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        onScanSuccess
+    );
+</script>

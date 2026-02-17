@@ -42,17 +42,17 @@ async function seedUsers() {
     }
 
     // Students data
-    const students = [
-        { username: "Harsha", email: "student1@hostel.com", role: "student", rollNumber: "CS101" },
-        { username: "Rahul", email: "student2@hostel.com", role: "student", rollNumber: "CS102" },
-        { username: "Priya", email: "student3@hostel.com", role: "student", rollNumber: "CS103" },
-        { username: "Karan", email: "student4@hostel.com", role: "student", rollNumber: "CS104" },
-        { username: "Sneha", email: "student5@hostel.com", role: "student", rollNumber: "CS105" },
-        { username: "Vikram", email: "student6@hostel.com", role: "student", rollNumber: "CS106" },
-        { username: "Ananya", email: "student7@hostel.com", role: "student", rollNumber: "CS107" },
-        { username: "Karthik", email: "student8@hostel.com", role: "student", rollNumber: "CS108" },
-        { username: "Ishaan", email: "student9@hostel.com", role: "student", rollNumber: "CS109" },
-        { username: "Riya", email: "student10@hostel.com", role: "student", rollNumber: "CS110" }
+     const students = [
+        { username: "Harsha", email: "student1@hostel.com", rollNumber: "CS101", foodPreference: "Veg", messStatus: "active" },
+        { username: "Rahul", email: "student2@hostel.com", rollNumber: "CS102", foodPreference: "Non-Veg", messStatus: "active" },
+        { username: "Priya", email: "student3@hostel.com", rollNumber: "CS103", foodPreference: "Veg", messStatus: "inactive" },
+        { username: "Karan", email: "student4@hostel.com", rollNumber: "CS104", foodPreference: "Non-Veg", messStatus: "active" },
+        { username: "Sneha", email: "student5@hostel.com", rollNumber: "CS105", foodPreference: "Veg", messStatus: "active" },
+        { username: "Vikram", email: "student6@hostel.com", rollNumber: "CS106", foodPreference: "Non-Veg", messStatus: "inactive" },
+        { username: "Ananya", email: "student7@hostel.com", rollNumber: "CS107", foodPreference: "Veg", messStatus: "active" },
+        { username: "Karthik", email: "student8@hostel.com", rollNumber: "CS108", foodPreference: "Non-Veg", messStatus: "active" },
+        { username: "Ishaan", email: "student9@hostel.com", rollNumber: "CS109", foodPreference: "Non-Veg", messStatus: "active" },
+        { username: "Riya", email: "student10@hostel.com", rollNumber: "CS110", foodPreference: "Veg", messStatus: "inactive" }
     ];
 
     const studentPasswords = [

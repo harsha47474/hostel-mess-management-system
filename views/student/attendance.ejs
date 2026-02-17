@@ -10,73 +10,47 @@
 
                     <div class="content">
 
-                        <!-- Header -->
-                        <h2>Attendance 📅</h2>
-                        <p class="subtitle">Track your monthly attendance record</p>
+                        <% if (approved) { %>
 
-                        <!-- Stats -->
-                        <div class="attendance-stats">
-                            <div class="stat-card present">
-                                <div class="icon">✓</div>
-                                <div>
-                                    <h3>
-                                        <%= present %>
-                                    </h3>
-                                    <span>Days Present</span>
-                                </div>
-                            </div>
+                            <h2>
+                                <%= meal %> Attendance
+                            </h2>
+                            <h3 style="color:green;">✅ Attendance Approved. You May Enter.</h3>
 
-                            <div class="stat-card absent">
-                                <div class="icon">✕</div>
-                                <div>
-                                    <h3>
-                                        <%= absent %>
-                                    </h3>
-                                    <span>Days Absent</span>
-                                </div>
-                            </div>
+                            <% } else { %>
 
-                            <div class="stat-card rate">
-                                <div class="icon">%</div>
-                                <div>
-                                    <h3>
-                                        <%= rate %>%
-                                    </h3>
-                                    <span>Attendance Rate</span>
-                                </div>
-                            </div>
-                        </div>
+                                <h2>
+                                    <%= meal %> QR Code
+                                </h2>
 
-                        <!-- Calendar -->
-                        <div class="calendar-card">
-                            <div class="calendar-header">
-                                <h4>
-                                    <%= monthName %>
-                                        <%= year %>
-                                </h4>
-                            </div>
+                                <img id="qrImage" src="<%= qrImage %>" />
 
-                            <div class="calendar-grid">
-                                <% calendar.forEach(day=> { %>
-                                    <div class="day 
-                                            <%= day.status %> 
-                                            <%= day.isToday ? 'today' : '' %>">
-                                        <span>
-                                            <%= day.day %>
-                                        </span>
+                                <p>Expires at: <%= expiresAt.toLocaleTimeString() %>
+                                </p>
 
-                                        <% if (day.status==="present" ) { %> ✓ <% } %>
-                                                <% if (day.status==="absent" ) { %> ✕ <% } %>
-                                    </div>
-                                    <% }) %>
-                            </div>
+                                <h3 id="statusText">Waiting for scan...</h3>
 
-                            <div class="calendar-legend">
-                                <span>✓ Present</span>
-                                <span>✕ Absent</span>
-                                <span class="today-box"></span> Today
-                            </div>
-                        </div>
+                                <script>
+                                    const token = "<%= token %>";
+
+                                    function checkStatus() {
+                                        fetch(`/qr-status/${token}`)
+                                            .then(res => res.json())
+                                            .then(data => {
+                                                if (data.status === "used") {
+                                                    document.getElementById("qrImage").style.display = "none";
+                                                    document.getElementById("statusText").innerHTML =
+                                                        "✅ Attendance Approved. You May Enter.";
+                                                    document.getElementById("statusText").style.color = "green";
+                                                }
+                                            });
+                                    }
+
+                                    setInterval(checkStatus, 3000);
+                                </script>
+
+                                <% } %>
+
 
                     </div>
 

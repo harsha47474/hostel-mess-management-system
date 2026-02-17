@@ -1,0 +1,55 @@
+<% layout('layouts/boilerplate') -%>
+
+  <div class="layout">
+    <%- include("../includes/adminSidebar", { active: "students" , role: "admin" }) %>
+      <div class="main">
+        <%- include("../includes/adminNavbar", { user }) %>
+
+          <div class="content">
+
+            <div class="form-card">
+
+              <div class="form-header">
+                <h2>Add a Student 🎓</h2>
+                <p class="subtitle">Fill in the details below to register a new student</p>
+              </div>
+
+              <form action="/admins/students" method="POST" class="form">
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="username">Full Name</label>
+                    <input type="text" id="username" name="username"required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="rollNumber">Roll Number</label>
+                    <input type="text" id="rollNumber" name="rollNumber" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="password">Enter Password</label>
+                  <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="primary-btn">
+                    Add Student
+                  </button>
+
+                  <a href="/admins/students" class="secondary-btn">
+                    Cancel
+                  </a>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+      </div>

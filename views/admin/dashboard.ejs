@@ -16,20 +16,21 @@
                             <div class="admin-card">
                                 <div class="card-top">
                                     <span>Total Students</span>
-                                    <span class="card-icon">🎓</span>
                                 </div>
                                 <h1>
-                                    <%= totalStudents %>
+                                    <b><%= totalStudents %></b>
+                                    <span class="card-icon">🎓</span>
                                 </h1>
-                                <p class="card-sub">+12 this month</p>
+                                <p class="card-sub" style="color: green;">+12 this month</p>
                             </div>
 
                             <div class="admin-card">
                                 <div class="card-top">
                                     <span>Pending Bills</span>
-                                    <span class="card-icon">💰</span>
+                                    
                                 </div>
-                                <h1>₹<%= totalPendingBills %>
+                                <h1 style="color: red;"><b>₹<%= totalPendingBills %></b>
+                                    <span class="card-icon">💰</span>
                                 </h1>
                                 <p class="card-sub">
                                     <%= totalStudents %>
@@ -39,10 +40,10 @@
                             <div class="admin-card">
                                 <div class="card-top">
                                     <span>Complaints Pending</span>
-                                    <span class="card-icon">💬</span>
                                 </div>
                                 <h1>
                                     <%= pendingComplaints %>
+                                    <span class="card-icon">💬</span>
                                 </h1>
                                 <p class="card-sub">3 urgent</p>
                             </div>
@@ -50,10 +51,11 @@
                             <div class="admin-card">
                                 <div class="card-top">
                                     <span>Overall Attendance</span>
-                                    <span class="card-icon">📅</span>
+                                   
                                 </div>
                                 <h1>
                                     <%= attendanceRate %>%
+                                     <span class="card-icon">📅</span>
                                 </h1>
                                 <p class="card-sub">This month</p>
                             </div>

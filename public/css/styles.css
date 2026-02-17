@@ -5,3 +5,8 @@
 @import url("./components/billing.css");
 @import url("./components/studentComplaints.css");
 @import url("./components/adminDashboard.css");
+@import url("./components/studentManage.css");
+
+body{
+    font-family: "Poppins", sans-serif;
+}
