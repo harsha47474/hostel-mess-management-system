@@ -8,67 +8,99 @@ const Attendance = require('../../models/attendance');
 
 
 router.get("/scan", isLoggedIn, isAdmin, (req, res) => {
-    res.render("admin/scan");
+    const user = req.user;
+    res.render("admin/scan", { user });
 });
 
 
-router.post("/scan", isLoggedIn, isAdmin, wrapAsync(async (req, res) => {
+router.post(
+    "/scan",
+    isLoggedIn,
+    isAdmin,
+    wrapAsync(async (req, res) => {
 
-    const { token } = req.body;
+        const { token } = req.body;
 
-    if (!token) {
-        return res.send("Invalid QR Code");
-    }
-
-    const qrToken = await QRToken.findOne({ token }).populate("user");
-
-    if (!qrToken) {
-        return res.send("QR Not Found");
-    }
-
-    if (qrToken.used) {
-        return res.send("QR Already Used");
-    }
-
-    if (qrToken.expiresAt < new Date()) {
-        return res.send("QR Expired");
-    }
-
-    // Check attendance already marked
-    const today = new Date();
-    const startOfDay = new Date(today.setHours(0,0,0,0));
-    const endOfDay = new Date(today.setHours(23,59,59,999));
-
-    const existingAttendance = await Attendance.findOne({
-        user: qrToken.user._id,
-        mealType: qrToken.mealType,
-        date: {
-            $gte: startOfDay,
-            $lte: endOfDay
+        if (!token) {
+            return res.json({
+                success: false,
+                message: "Invalid QR Code"
+            });
         }
-    });
 
-    if (existingAttendance) {
+        const qrToken = await QRToken.findOne({ token }).populate("user");
+
+        if (!qrToken) {
+            return res.json({
+                success: false,
+                message: "QR not found"
+            });
+        }
+
+        if (qrToken.used) {
+            return res.json({
+                success: false,
+                message: "QR already used"
+            });
+        }
+
+        if (qrToken.expiresAt < new Date()) {
+            return res.json({
+                success: false,
+                message: "QR expired"
+            });
+        }
+
+        // Check if attendance already marked today
+        const now = new Date();
+
+        const startOfDay = new Date(now);
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const endOfDay = new Date(now);
+        endOfDay.setHours(23, 59, 59, 999);
+
+        const existingAttendance = await Attendance.findOne({
+            user: qrToken.user._id,
+            mealType: qrToken.mealType,
+            date: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        });
+
+        if (existingAttendance) {
+            qrToken.used = true;
+            await qrToken.save();
+
+            return res.json({
+                success: false,
+                message: "Attendance already marked"
+            });
+        }
+
+        // Create attendance
+        await Attendance.create({
+            user: qrToken.user._id,
+            mealType: qrToken.mealType,
+            plateType: qrToken.plateType,
+            date: new Date()
+        });
+
+        // Mark token used
         qrToken.used = true;
         await qrToken.save();
-        return res.send("Attendance Already Marked");
-    }
 
-    // Create attendance
-    await Attendance.create({
-        user: qrToken.user._id,
-        mealType: qrToken.mealType,
-        plateType: qrToken.plateType,
-        date: new Date()
-    });
+        return res.json({
+            success: true,
+            student: qrToken.user.username,
+            meal: qrToken.mealType,
+            plate: qrToken.plateType
+        });
 
-    // Mark token as used
-    qrToken.used = true;
-    await qrToken.save();
+    })
+);
 
-    res.send("Attendance Marked Successfully ✅");
-
-}));
 
 
 module.exports = router;

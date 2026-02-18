@@ -4,56 +4,119 @@
 
     <%- include("../includes/sidebar", { active: "menu" }) %>
 
-        <div class="main">
+    <div class="main">
 
-            <%- include("../includes/navbar", { user }) %>
+        <%- include("../includes/navbar", { user }) %>
 
-                <div class="content">
+        <div class="content container-fluid py-4">
 
-                    <div class="menu-card">
-                        <div class="menu-header">
-                            <div class="menu-icon">🍽️</div>
-                            <h3>Weekly Mess Menu</h3>
-                        </div>
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold">🍽 Weekly Mess Menu</h2>
+                    <p class="text-muted mb-0">Your meal schedule for the week</p>
+                </div>
 
-                        <table class="menu-table">
-                            <thead>
+                <% if (userPref === "Non-Veg") { %>
+                    <button id="toggleBtn" class="btn btn-outline-success rounded-pill px-4">
+                        Show Veg Only
+                    </button>
+                <% } %>
+            </div>
+
+            <!-- Menu Card -->
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-0">
+
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0 weekly-menu">
+
+                            <thead class="table-light">
                                 <tr>
                                     <th>Day</th>
-                                    <th>Breakfast</th>
-                                    <th>Lunch</th>
-                                    <th>Dinner</th>
+                                    <th>🌅 Breakfast</th>
+                                    <th>☀️ Lunch</th>
+                                    <th>🌙 Dinner</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                <% menu.forEach(item=> { %>
-                                    <tr class="<%= item.isToday ? 'today-row' : '' %>">
-                                        <td>
-                                            <strong>
-                                                <%= item.day %>
-                                            </strong>
-                                            <% if (item.isToday) { %>
-                                                <span class="today-badge">Today</span>
-                                                <% } %>
-                                        </td>
-                                        <td>
-                                            <%= item.breakfast %>
-                                        </td>
-                                        <td>
-                                            <%= item.lunch %>
-                                        </td>
-                                        <td>
-                                            <%= item.dinner %>
-                                        </td>
-                                    </tr>
-                                    <% }) %>
-                            </tbody>
-                        </table>
 
+                                <%
+                                const daysOrder = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+                                daysOrder.forEach(day => {
+                                    const dayMenus = menus.filter(m => m.day === day);
+
+                                    const breakfast = dayMenus.find(m => m.mealType === "breakfast");
+                                    const lunch = dayMenus.find(m => m.mealType === "lunch");
+                                    const dinner = dayMenus.find(m => m.mealType === "dinner");
+                                %>
+
+                                <tr class="<%= day === today ? 'today-row' : '' %>">
+                                    <td class="fw-semibold">
+                                        <%= day %>
+                                        <% if(day === today){ %>
+                                            <span class="badge bg-success ms-2">Today</span>
+                                        <% } %>
+                                    </td>
+
+                                    <!-- Breakfast -->
+                                    <td>
+                                        <% if (breakfast) { %>
+                                            <% breakfast.items.forEach(item => { 
+                                                if(userPref === "Veg" && !item.isVeg) return;
+                                            %>
+                                                <span class="menu-pill <%= item.isVeg ? 'veg' : 'nonveg' %>">
+                                                    <%= item.name %>
+                                                </span>
+                                            <% }) %>
+                                        <% } %>
+                                    </td>
+
+                                    <!-- Lunch -->
+                                    <td>
+                                        <% if (lunch) { %>
+                                            <% lunch.items.forEach(item => { 
+                                                if(userPref === "Veg" && !item.isVeg) return;
+                                            %>
+                                                <span class="menu-pill <%= item.isVeg ? 'veg' : 'nonveg' %>">
+                                                    <%= item.name %>
+                                                </span>
+                                            <% }) %>
+                                        <% } %>
+                                    </td>
+
+                                    <!-- Dinner -->
+                                    <td>
+                                        <% if (dinner) { %>
+                                            <% dinner.items.forEach(item => { 
+                                                if(userPref === "Veg" && !item.isVeg) return;
+                                            %>
+                                                <span class="menu-pill <%= item.isVeg ? 'veg' : 'nonveg' %>">
+                                                    <%= item.name %>
+                                                </span>
+                                            <% }) %>
+                                        <% } %>
+                                    </td>
+
+                                </tr>
+
+                                <% }) %>
+
+                            </tbody>
+
+                        </table>
                     </div>
 
                 </div>
+            </div>
 
         </div>
+    </div>
 </div>
+
+
+
+<script src="/js/toggleMenu.js"></script><script>
+

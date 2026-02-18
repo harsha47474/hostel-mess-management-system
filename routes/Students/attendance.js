@@ -57,7 +57,8 @@ router.get("/generate-qr", isLoggedIn, isStudent, isMessActive, wrapAsync(async 
             qrImage,
             meal,
             expiresAt: existingToken.expiresAt,
-            token: existingToken.token
+            token: existingToken.token,
+            approved:false
         });
     }
 
@@ -83,7 +84,7 @@ router.get("/generate-qr", isLoggedIn, isStudent, isMessActive, wrapAsync(async 
         qrImage,
         meal,
         expiresAt,
-        token: existingToken ? existingToken.token : token
+        approved:false
     });
 }));
 

@@ -5,9 +5,13 @@ const isStudent = require('../../middlewares/isStudent').isStudent;
 const menuSchema = require("../../models/menu");
 const wrapAsync = require('../../utils/wrapAsync');
 
-router.get('/menu', isLoggedIn, isStudent, wrapAsync(async (req, res) => {
-    const menu = await menuSchema.find({});
-    res.render('student/menu.ejs', { user: req.user, menu: menu ,active:"menu"});
-}));
 
+router.get('/menu', isLoggedIn, isStudent, wrapAsync(async (req, res) => {
+  const user = req.user;  
+  const userPref = req.user.foodPreference; 
+  const menus = await menuSchema.find().sort({ day: 1 });
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+  
+  res.render('student/menu', { user, menus, userPref, today });
+}));
 module.exports = router;

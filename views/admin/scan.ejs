@@ -1,27 +1,43 @@
-<h2>Scan Student QR</h2>
-<div id="reader" style="width:300px;"></div>
+<% layout('layouts/boilerplate') -%>
 
-<script src="https://unpkg.com/html5-qrcode"></script>
+    <div class="layout">
+        <%- include("../includes/adminSidebar", { active: "dashboard" , role: "admin" }) %>
 
-<script>
-    function onScanSuccess(decodedText) {
-        fetch("/admins/scan", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ token: decodedText })
-        })
-        .then(res => res.text())
-        .then(data => {
-            alert(data);
-        });
-    }
+            <div class="main">
+                <%- include("../includes/adminNavbar", { user }) %>
 
-    const html5QrCode = new Html5Qrcode("reader");
-    html5QrCode.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: 250 },
-        onScanSuccess
-    );
-</script>
+                    <div class="layout">
+                        <div class="main full-width">
+
+                            <div class="scanner-page">
+
+                                <h1>Mess Attendance Scanner</h1>
+                                <p class="subtitle">Scan student QR to mark attendance</p>
+
+                                <div class="scanner-card">
+
+                                    <div id="reader"></div>
+
+                                    <div id="scanStatus" class="scan-badge">
+                                        🟢 Ready to Scan
+                                    </div>
+
+                                    <div id="resultBox" class="result-box hidden">
+                                        <!-- Filled dynamically -->
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <script src="https://unpkg.com/html5-qrcode"></script>
+                    <script src="/js/scanQr.js"></script>
+                    <script>
+                        initQrScanner();
+                    </script>
+
+            </div>
+    </div>

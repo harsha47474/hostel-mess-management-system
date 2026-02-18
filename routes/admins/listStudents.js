@@ -10,11 +10,11 @@ const Complaint = require('../../models/complaints');
 
 router.get('/students', isLoggedIn, isAdmin, wrapAsync(async (req, res) => {
   const students = await User.find({ role: 'student' });
-  res.render('admin/students.ejs', { user: req.user, students });
+  res.render('admin/manageStudent/students.ejs', { user: req.user, students });
 }));
 
 router.get('/students/new', isLoggedIn, isAdmin, (req, res) => {
-  res.render('admin/newStudent.ejs', { user: req.user });
+  res.render('admin/manageStudent/newStudent.ejs', { user: req.user });
 });
 
 router.post('/students', isLoggedIn, isAdmin, wrapAsync(async (req, res) => {
@@ -27,7 +27,7 @@ router.post('/students', isLoggedIn, isAdmin, wrapAsync(async (req, res) => {
 
 router.get('/students/:id/edit', isLoggedIn, isAdmin, wrapAsync(async (req, res) => {
   const student = await User.findById(req.params.id);
-  res.render("admin/editStudent.ejs", { user: req.user, student });
+  res.render("admin/manageStudent/editStudent.ejs", { user: req.user, student });
 }));
 
 router.put('/students/:id', isLoggedIn, isAdmin, wrapAsync(async (req, res) => {

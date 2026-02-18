@@ -26,9 +26,9 @@ const qrTokenSchema = new Schema({
         unique: true
     },
 
-      expiresAt: {
-    type: Date,
-    required: true
+    expiresAt: {
+        type: Date,
+        required: true
   },
 
   used: {

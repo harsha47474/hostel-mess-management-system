@@ -8,51 +8,60 @@
 
                 <%- include("../includes/navbar", { user }) %>
 
-                    <div class="content">
+                    <div class="content attendance-page">
 
-                        <% if (approved) { %>
+                        <!-- Meal Header -->
+                        <div class="meal-header">
+                            <span class="meal-badge">🍽 Current Meal</span>
+                            <h1>
+                                <%= meal %>
+                            </h1>
+                        </div>
 
-                            <h2>
-                                <%= meal %> Attendance
-                            </h2>
-                            <h3 style="color:green;">✅ Attendance Approved. You May Enter.</h3>
+                        <div class="attendance-card">
 
-                            <% } else { %>
+                            <% if (approved) { %>
 
-                                <h2>
-                                    <%= meal %> QR Code
-                                </h2>
+                                <div class="approved-state">
+                                    <div class="success-icon">✔</div>
+                                    <h2>Attendance Approved</h2>
+                                    <p>You may enter the mess. Enjoy your meal!</p>
+                                </div>
 
-                                <img id="qrImage" src="<%= qrImage %>" />
+                                <% } else { %>
 
-                                <p>Expires at: <%= expiresAt.toLocaleTimeString() %>
-                                </p>
+                                    <div class="qr-box">
+                                        <img id="qrImage" src="<%= qrImage %>" />
+                                    </div>
 
-                                <h3 id="statusText">Waiting for scan...</h3>
+                                    <div class="expiry">
+                                        ⏳ Expires at: <%= expiresAt.toLocaleTimeString() %>
+                                    </div>
 
-                                <script>
-                                    const token = "<%= token %>";
+                                    <h3 id="statusText" class="waiting">
+                                        Waiting for scan...
+                                    </h3>
 
-                                    function checkStatus() {
-                                        fetch(`/qr-status/${token}`)
-                                            .then(res => res.json())
-                                            .then(data => {
-                                                if (data.status === "used") {
-                                                    document.getElementById("qrImage").style.display = "none";
-                                                    document.getElementById("statusText").innerHTML =
-                                                        "✅ Attendance Approved. You May Enter.";
-                                                    document.getElementById("statusText").style.color = "green";
-                                                }
-                                            });
-                                    }
+                                    <p class="hint">
+                                        Show this QR code in the mess scanner to mark your attendance for <b><%= meal %></b>. Once scanned, your attendance will be approved.
+                                    </p>
 
-                                    setInterval(checkStatus, 3000);
-                                </script>
+                                    <script src="/js/qrStatus.js"></script>
+                                    <script>
+                                        const token = "<%= token %>";
+                                        initQrStatus(token);
+                                    </script>
 
-                                <% } %>
+                                    <% } %>
 
+                        </div>
+
+                        <p class="footer-note">
+                            QR codes are valid for 15 minutes. A new code can be generated anytime.
+                        </p>
 
                     </div>
+
 
             </div>
     </div>
