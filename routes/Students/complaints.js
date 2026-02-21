@@ -4,9 +4,10 @@ const isLoggedIn = require('../../middlewares/isLoggedIn').isLoggedIn;
 const isStudent = require('../../middlewares/isStudent').isStudent;
 const wrapAsync = require('../../utils/wrapAsync');
 const Complaint = require('../../models/complaints');
+const isMessActive = require('../../middlewares/isMessActive').isMessActive
 
 
-router.get('/complaints', isLoggedIn, isStudent, wrapAsync(async (req, res) => {
+router.get('/complaints', isLoggedIn, isMessActive ,isStudent, wrapAsync(async (req, res) => {
     const complaints = await Complaint.find({ student: req.user._id }).sort({ createdAt: -1 });
     res.render('student/complaints.ejs', { user: req.user, complaints });
 }));

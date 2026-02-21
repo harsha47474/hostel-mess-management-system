@@ -23,6 +23,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^9.0.1",
     "pdfkit": "^0.17.2",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "whirl": "^1.2.0"
   }
 }

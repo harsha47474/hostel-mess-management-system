@@ -2,7 +2,7 @@ module.exports.isMessActive = async(req, res, next)=>{
     const user = req.user;
 
     if (user.messStatus === "inactive") {
-        return res.send("Your mess subscription is inactive.");
+        return res.render("auth/activate");
     }
 
     if (!user.messSubscription?.endDate) {
