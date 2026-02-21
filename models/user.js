@@ -8,22 +8,22 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true,
         lowercase: true,
         trim: true
     },
-    role:{
+    role: {
         type: String,
         enum: ['student', 'admin'],
         required: true,
         default: 'student'
     },
-    rollNumber:{
+    rollNumber: {
         type: String,
-        required: function() { return this.role === 'student';}
+        required: function () { return this.role === 'student'; }
     },
     messStatus: {
         type: String,
@@ -31,10 +31,15 @@ const userSchema = new Schema({
         default: 'inactive'
     },
 
+    messSubscription: {
+        startDate: Date,
+        endDate: Date
+    },
+
     foodPreference: {
         type: String,
         enum: ['Veg', 'Non-Veg'],
-        required: function() { return this.role === 'student'; }
+        required: function () { return this.role === 'student'; }
     }
 }, { timestamps: true });
 

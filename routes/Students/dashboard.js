@@ -7,8 +7,6 @@ const Attendance = require('../../models/attendance');
 const wrapAsync = require('../../utils/wrapAsync');
 
 router.get("/dashboard", isLoggedIn, isStudent, wrapAsync(async (req, res) => {
-   
-
 
     res.render("student/dashboard.ejs", { user: req.user});
 }));

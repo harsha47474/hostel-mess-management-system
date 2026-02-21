@@ -15,18 +15,28 @@ main()
         console.error("Failed to connect to MongoDB", err);
     });
 
+
+function addMonths(date, months) {
+    const d = new Date(date);
+    d.setMonth(d.getMonth() + months);
+    return d;
+}
+
+const today = new Date();
+
+
 async function seedUsers() {
     await User.deleteMany({});
 
     //Admins data
     const admins = [
         {
-            username:"warden",
+            username: "warden",
             email: "warden@hostel.com",
             role: "admin"
         },
         {
-            username:"manager",
+            username: "manager",
             email: "manager@hostel.com",
             role: "admin"
         }
@@ -42,17 +52,115 @@ async function seedUsers() {
     }
 
     // Students data
-     const students = [
-        { username: "Harsha", email: "student1@hostel.com", rollNumber: "CS101", foodPreference: "Veg", messStatus: "active" },
-        { username: "Rahul", email: "student2@hostel.com", rollNumber: "CS102", foodPreference: "Non-Veg", messStatus: "active" },
-        { username: "Priya", email: "student3@hostel.com", rollNumber: "CS103", foodPreference: "Veg", messStatus: "inactive" },
-        { username: "Karan", email: "student4@hostel.com", rollNumber: "CS104", foodPreference: "Non-Veg", messStatus: "active" },
-        { username: "Sneha", email: "student5@hostel.com", rollNumber: "CS105", foodPreference: "Veg", messStatus: "active" },
-        { username: "Vikram", email: "student6@hostel.com", rollNumber: "CS106", foodPreference: "Non-Veg", messStatus: "inactive" },
-        { username: "Ananya", email: "student7@hostel.com", rollNumber: "CS107", foodPreference: "Veg", messStatus: "active" },
-        { username: "Karthik", email: "student8@hostel.com", rollNumber: "CS108", foodPreference: "Non-Veg", messStatus: "active" },
-        { username: "Ishaan", email: "student9@hostel.com", rollNumber: "CS109", foodPreference: "Non-Veg", messStatus: "active" },
-        { username: "Riya", email: "student10@hostel.com", rollNumber: "CS110", foodPreference: "Veg", messStatus: "inactive" }
+    const students = [
+        {
+            username: "Harsha",
+            email: "student1@hostel.com",
+            role: "student",
+            rollNumber: "CS101",
+            foodPreference: "Veg",
+            messStatus: "active",
+            messSubscription: {
+                startDate: today,
+                endDate: addMonths(today, 1)
+            }
+        },
+        {
+            username: "Rahul",
+            email: "student2@hostel.com",
+            role: "student",
+            rollNumber: "CS102",
+            foodPreference: "Non-Veg",
+            messStatus: "active",
+            messSubscription: {
+                startDate: today,
+                endDate: addMonths(today, 3)
+            }
+        },
+        {
+            username: "Priya",
+            email: "student3@hostel.com",
+            role: "student",
+            rollNumber: "CS103",
+            foodPreference: "Veg",
+            messStatus: "inactive"
+        },
+        {
+            username: "Karan",
+            email: "student4@hostel.com",
+            role: "student",
+            rollNumber: "CS104",
+            foodPreference: "Non-Veg",
+            messStatus: "active",
+            messSubscription: {
+                startDate: addMonths(today, -3),
+                endDate: addMonths(today, -1) // expired
+            }
+        },
+        {
+            username: "Sneha",
+            email: "student5@hostel.com",
+            role: "student",
+            rollNumber: "CS105",
+            foodPreference: "Veg",
+            messStatus: "active",
+            messSubscription: {
+                startDate: today,
+                endDate: addMonths(today, 5)
+            }
+        },
+        {
+            username: "Vikram",
+            email: "student6@hostel.com",
+            role: "student",
+            rollNumber: "CS106",
+            foodPreference: "Non-Veg",
+            messStatus: "inactive"
+        },
+        {
+            username: "Ananya",
+            email: "student7@hostel.com",
+            role: "student",
+            rollNumber: "CS107",
+            foodPreference: "Veg",
+            messStatus: "active",
+            messSubscription: {
+                startDate: today,
+                endDate: addMonths(today, 2)
+            }
+        },
+        {
+            username: "Karthik",
+            email: "student8@hostel.com",
+            role: "student",
+            rollNumber: "CS108",
+            foodPreference: "Non-Veg",
+            messStatus: "active",
+            messSubscription: {
+                startDate: today,
+                endDate: addMonths(today, 4)
+            }
+        },
+        {
+            username: "Ishaan",
+            email: "student9@hostel.com",
+            role: "student",
+            rollNumber: "CS109",
+            foodPreference: "Non-Veg",
+            messStatus: "active",
+            messSubscription: {
+                startDate: addMonths(today, -2),
+                endDate: today // expires today
+            }
+        },
+        {
+            username: "Riya",
+            email: "student10@hostel.com",
+            role: "student",
+            rollNumber: "CS110",
+            foodPreference: "Veg",
+            messStatus: "inactive"
+        }
     ];
 
     const studentPasswords = [

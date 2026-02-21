@@ -1,12 +1,31 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const billSchema = new mongoose.Schema({
-  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  month: { type: String, required: true },
-  year: { type: Number, required: true },
-  amount: { type: Number, required: true },
-  status: { type: String, enum: ['pending', 'paid'], default: 'pending' },
-  updatedAt: { type: Date, default: Date.now }
-});
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
 
-module.exports = mongoose.model('Bill', billSchema);
+    months: {
+        type: Number,
+        min: 1
+    },
+
+    startDate: Date,
+    endDate: Date,
+
+    amount: Number,
+
+    status: {
+        type: String,
+        enum: ["pending", "paid"],
+        default: "pending"
+    },
+
+    paymentDate: Date,
+    transactionId: String
+
+}, { timestamps: true });
+
+module.exports = mongoose.model("Bill", billSchema);

@@ -26,12 +26,12 @@ router.get("/dashboard", isLoggedIn, isAdmin, wrapAsync(async (req, res) => {
 
     
     const recentComplaints = await Complaint.find({})
-        .populate('student')
+        .populate('user')
         .sort({ createdAt: -1 })
         .limit(2);
 
     const recentBills = await Bill.find({ status: 'paid' })
-        .populate('student')
+        .populate('user')
         .sort({ updatedAt: -1 })
         .limit(2);
 

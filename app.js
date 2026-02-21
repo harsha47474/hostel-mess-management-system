@@ -19,6 +19,7 @@ const complaintsRoutes = require('./routes/Students/complaints');
 const studentListRoutes = require('./routes/admins/listStudents');
 const scanRoutes = require('./routes/admins/scan');
 const menuRoutesAdmin = require('./routes/admins/menu');
+const billingAdminRoute = require('./routes/admins/billing')
 
 connectDB();
 
@@ -74,6 +75,7 @@ app.use('/admins', adminDashboardRoutes);
 app.use('/admins', studentListRoutes);
 app.use("/admins", scanRoutes);
 app.use("/admins", menuRoutesAdmin);
+app.use("/admins", billingAdminRoute)
 app.use("/student",menuRoutes);
 app.use("/student",attendanceRoutes);
 app.use("/student",billingRoutes);
