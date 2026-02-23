@@ -5,9 +5,10 @@ const isStudent = require('../../middlewares/isStudent').isStudent;
 const wrapAsync = require('../../utils/wrapAsync');
 const Complaint = require('../../models/complaints');
 const isMessActive = require('../../middlewares/isMessActive').isMessActive
+const Activity = require('../../models/activity')
 
 
-router.get('/complaints', isLoggedIn, isMessActive ,isStudent, wrapAsync(async (req, res) => {
+router.get('/complaints', isLoggedIn, isMessActive, isStudent, wrapAsync(async (req, res) => {
     const complaints = await Complaint.find({ student: req.user._id }).sort({ createdAt: -1 });
     res.render('student/complaints.ejs', { user: req.user, complaints });
 }));
@@ -22,6 +23,12 @@ router.post('/complaints', isLoggedIn, isStudent, wrapAsync(async (req, res) => 
         category,
         description
     });
+    await Activity.create({
+        action: "submitted complaint",
+        performedBy: req.user.username,
+        target: "Mess Complaint",
+        type: "complaint"
+    });
 
     res.redirect('/student/complaints');
 }));
@@ -29,6 +36,7 @@ router.post('/complaints', isLoggedIn, isStudent, wrapAsync(async (req, res) => 
 router.delete('/complaints/:id', isLoggedIn, isStudent, wrapAsync(async (req, res) => {
     const { id } = req.params;
     await Complaint.findOneAndDelete({ _id: id, student: req.user._id });
+    
     res.redirect('/student/complaints');
 }));
 

@@ -7,81 +7,102 @@ const Attendance = require('../../models/attendance');
 const wrapAsync = require('../../utils/wrapAsync');
 const isAdmin = require('../../middlewares/isAdmin').isAdmin;
 const isLoggedIn = require('../../middlewares/isLoggedIn').isLoggedIn;
+const Activity = require("../../models/activity");
 
 
-router.get("/dashboard", isLoggedIn, isAdmin, wrapAsync(async (req, res) => {
-    const totalStudents = await User.countDocuments({ role: 'student' });
+router.get("/dashboard", isLoggedIn, isAdmin, async (req, res) => {
+    try {
 
-    
-    const pendingBills = await Bill.find({ status: 'pending' });
-    const totalPendingBills = pendingBills.reduce((sum, b) => sum + b.amount, 0);
+        const students = await User.find({ role: "student" });
+        const activities = await Activity.find()
+            .sort({ createdAt: -1 })
+            .limit(5);
 
-    const pendingComplaints = await Complaint.countDocuments({ status: 'pending' });
+        const paidBills = await Bill.find({ status: "paid" });
 
-    const attendanceRecords = await Attendance.find({});
-    const present = attendanceRecords.filter(r => r.status === 'present').length;
-    const absent = attendanceRecords.filter(r => r.status === 'absent').length;
-    const total = present + absent;
-    const attendanceRate = total > 0 ? Math.round((present / total) * 100) : 0;
+        const today = new Date();
 
-    
-    const recentComplaints = await Complaint.find({})
-        .populate('user')
-        .sort({ createdAt: -1 })
-        .limit(2);
+        let totalStudents = students.length;
+        let activeCount = 0;
+        let expiredCount = 0;
+        let expiringSoonCount = 0;
 
-    const recentBills = await Bill.find({ status: 'paid' })
-        .populate('user')
-        .sort({ updatedAt: -1 })
-        .limit(2);
+        let vegCount = 0;
+        let nonVegCount = 0;
 
-    const recentAttendance = await Attendance.find({})
-        .sort({ createdAt: -1 })
-        .limit(1);
-
-    
-    const activities = [];
-
-    recentComplaints.forEach(c => {
-        activities.push({
-            type: 'Complaint',
-            message: `New complaint raised`,
-            by: c.student?.username || 'Unknown',
-            time: c.createdAt
+        students.forEach(student => {
+            if (student.foodPreference === "Veg") vegCount++;
+            if (student.foodPreference === "Non-Veg") nonVegCount++;
         });
-    });
 
-    recentBills.forEach(b => {
-        activities.push({
-            type: 'Bill',
-            message: `Bill payment received`,
-            by: b.student?.username || 'Unknown',
-            time: b.updatedAt
+        // ================= SUBSCRIPTION DISTRIBUTION =================
+        students.forEach(student => {
+            const expiry = student.messSubscription?.endDate;
+            if (!expiry) return;
+
+            const expiryDate = new Date(expiry);
+            const diffDays =
+                (expiryDate - today) / (1000 * 60 * 60 * 24);
+
+            if (expiryDate > today) {
+                activeCount++;
+                if (diffDays <= 7) expiringSoonCount++;
+            } else {
+                expiredCount++;
+            }
         });
-    });
 
-    recentAttendance.forEach(a => {
-        activities.push({
-            type: 'Attendance',
-            message: `Attendance marked`,
-            by: 'admin',
-            time: a.createdAt
+        // ================= REVENUE (LAST 6 MONTHS) =================
+
+        let revenueData = [];
+        let labels = [];
+
+        for (let i = 5; i >= 0; i--) {
+
+            const d = new Date();
+            d.setMonth(d.getMonth() - i);
+
+            const month = d.getMonth();
+            const year = d.getFullYear();
+
+            labels.push(
+                d.toLocaleString('default', { month: 'short' })
+            );
+
+            let monthlyRevenue = 0;
+
+            paidBills.forEach(bill => {
+                if (!bill.paymentDate) return;
+
+                const billDate = new Date(bill.paymentDate);
+
+                if (
+                    billDate.getMonth() === month &&
+                    billDate.getFullYear() === year
+                ) {
+                    monthlyRevenue += bill.amount;
+                }
+            });
+
+            revenueData.push(monthlyRevenue);
+        }
+
+        res.render("admin/dashboard", {
+            totalStudents,
+            activeCount,
+            expiredCount,
+            expiringSoonCount,
+            activities,
+            revenueData,
+            labels,
+            vegCount,
+            nonVegCount
         });
-    });
 
-    
-    activities.sort((a, b) => b.time - a.time);
-
-    res.render('admin/dashboard.ejs', {
-        user: req.user,
-        totalStudents,
-        totalPendingBills,
-        pendingComplaints,
-        attendanceRate,
-        activities
-    });
-}));
-
-
+    } catch (err) {
+        console.log(err);
+        res.redirect("/admins/students");
+    }
+});
 
 module.exports = router;

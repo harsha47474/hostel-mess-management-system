@@ -9,6 +9,8 @@
 @import url("./components/admin/adminDashboard.css");
 @import url("./components/admin/messManage.css");
 @import url("./components/admin/billing.css");
+@import url("./components/admin/manageStudent.css");
+
 body{
     font-family: "Poppins", sans-serif;
 }

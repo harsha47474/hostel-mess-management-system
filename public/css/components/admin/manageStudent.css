@@ -1,0 +1,126 @@
+/* ===== PAGE BACKGROUND ===== */
+.bg-light-custom {
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+/* ===== PAGE HEADER ===== */
+.page-title {
+  font-weight: 700;
+  font-size: 28px;
+  color: #1f2937;
+}
+
+.page-subtitle {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* ===== SEARCH CARD ===== */
+.search-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+/* ===== TABLE ===== */
+.custom-table {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.custom-table thead {
+  background: #f3f4f6;
+}
+
+.custom-table th {
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.custom-table td {
+  vertical-align: middle;
+}
+
+/* ===== STATUS BADGES ===== */
+.badge-pill {
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.badge-active {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badge-expired {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-expiring {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.badge-inactive {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* ===== PRIMARY BUTTON ===== */
+.btn-green {
+  background: #10b981;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 18px;
+}
+
+.btn-green:hover {
+  background: #059669;
+}
+
+/* ===== MODAL STYLE ===== */
+.modal-content {
+  border-radius: 18px;
+  border: none;
+  padding: 10px;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+.modal-title {
+  font-weight: 700;
+}
+
+.modal-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: -5px;
+  margin-bottom: 15px;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.modal-note {
+  background: #f3f4f6;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #6b7280;
+}
