@@ -1,10 +1,9 @@
 @import url("./components/authStyle/login.css");
-@import url("./components/studentDashboard.css");
+@import url("./components/student/studentDashboard.css");
 @import url("./components/student/menu.css");
 @import url("./components/student/attQR.css");
 @import url("./components/student/billing.css");
 @import url("./components/studentComplaints.css");
-@import url("./components/studentManage.css");
 @import url("./components/admin/qrScan.css");
 @import url("./components/admin/adminDashboard.css");
 @import url("./components/admin/messManage.css");
