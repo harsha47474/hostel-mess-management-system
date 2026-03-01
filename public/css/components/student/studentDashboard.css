@@ -13,7 +13,6 @@ body {
 .sidebar {
   width: 260px;
   background: #ffffff;
-  height: 100vh;
   border-right: 1px solid #eee;
   padding: 1.5rem;
 }

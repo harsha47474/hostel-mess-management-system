@@ -20,6 +20,7 @@ const studentListRoutes = require('./routes/admins/listStudents');
 const scanRoutes = require('./routes/admins/scan');
 const menuRoutesAdmin = require('./routes/admins/menu');
 const billingAdminRoute = require('./routes/admins/billing')
+const adminComplaintsRoutes = require('./routes/admins/complaints');
 
 connectDB();
 
@@ -80,7 +81,7 @@ app.use("/student",menuRoutes);
 app.use("/student",attendanceRoutes);
 app.use("/student",billingRoutes);
 app.use("/student", complaintsRoutes);
-
+app.use("/admins", adminComplaintsRoutes);
 
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong!" } = err;

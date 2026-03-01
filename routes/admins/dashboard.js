@@ -16,7 +16,7 @@ router.get("/dashboard", isLoggedIn, isAdmin, async (req, res) => {
         const students = await User.find({ role: "student" });
         const activities = await Activity.find()
             .sort({ createdAt: -1 })
-            .limit(5);
+            .limit(3);
 
         const paidBills = await Bill.find({ status: "paid" });
 
