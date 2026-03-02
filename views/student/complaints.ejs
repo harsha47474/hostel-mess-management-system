@@ -1,0 +1,87 @@
+<% layout('layouts/boilerplate') -%>
+
+    <div class="layout">
+
+        <%- include("../includes/sidebar", { active: "complaints" }) %>
+
+            <div class="main">
+
+                <%- include("../includes/navbar", { user }) %>
+
+                    <div class="content">
+                        <div class="content">
+
+                            <!-- Header -->
+                            <div class="complaints-header">
+                                <div>
+                                    <h2>Complaints 💬</h2>
+                                    <p class="subtitle">Raise and track your complaints</p>
+                                </div>
+                            </div>
+
+                            <!-- New Complaint Form -->
+                            <form class="complaint-form" method="POST" action="/student/complaints">
+                                <h3>Raise a new complaint</h3>
+
+                                <div class="form-group">
+                                    <label>Complaint Title</label>
+                                    <input type="text" name="title" placeholder="Eg: Food quality issue" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    <select name="category" required>
+                                        <option value="">Select category</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Hygiene">Hygiene</option>
+                                        <option value="Billing">Billing</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea name="description" rows="4" placeholder="Describe your issue..."
+                                        required></textarea>
+                                </div>
+
+                                <button type="submit" class="submit-btn">
+                                    Submit Complaint
+                                </button>
+                            </form>
+
+                            <!-- Complaints List -->
+                            <% if (complaints.length===0) { %>
+                                <div class="alert alert-info">No complaints yet.</div>
+                                <% } else { %>
+                                    <% complaints.forEach(c=> { %>
+                                        <div class="complaint-card">
+                                            <div class="complaint-left">
+                                                <h4>
+                                                    <%= c.title %>
+                                                </h4>
+                                                <p>
+                                                    <%= c.description %>
+                                                </p>
+                                                <span class="complaint-date">
+                                                    Submitted: <%= c.createdAt.toDateString() %>
+                                                </span>
+                                            </div>
+                                            <div class="complaint-actions">
+                                                <span class="status <%= c.status %>">
+                                                    <%= c.status %>
+                                                </span>
+                                                <form method="POST" action="/student/complaints/<%= c._id %>/?_method=DELETE"
+                                                    style="display:inline;">
+                                                    <button type="submit" class="delete-btn">🗑️ Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                            <% } %>
+                        </div>
+
+                    </div>
+                    <%- include("../includes/footer") %>
+            </div>
+    </div>

@@ -1,0 +1,251 @@
+body {
+  margin: 0;
+  background: #fafafa;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Layout */
+.layout {
+  display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #ffffff;
+  border-right: 1px solid #eee;
+  padding: 1.5rem;
+}
+
+.sidebar-header {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  background: #e8f5f0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar span {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-list li {
+  margin-bottom: 10px;
+}
+
+.nav-list a {
+  text-decoration: none;
+  padding: 10px 14px;
+  display: block;
+  border-radius: 10px;
+  color: #333;
+}
+
+.nav-list .active a,
+.nav-list a:hover {
+  background: #f2f2f2;
+}
+
+/* Navbar */
+.top-navbar {
+  height: 70px;
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  background: #e8f5f0;
+  border-radius: 50%;
+  padding: 8px;
+}
+
+.role {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+.logout-btn {
+  text-decoration: none;
+  border: 1px solid #ddd;
+  padding: 6px 14px;
+  border-radius: 10px;
+  color: #333;
+}
+.main {
+  flex: 1;
+}
+
+.content {
+  padding: 2rem;
+}
+
+.subtitle {
+  color: #777;
+}
+
+
+
+/* ===== PAGE BACKGROUND ===== */
+.student-bg {
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+/* ===== WELCOME SECTION ===== */
+.welcome-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.welcome-sub {
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+/* ===== GLASS SUBSCRIPTION CARD ===== */
+.subscription-card {
+  background: linear-gradient(135deg, #e6f4f1, #dff3ec);
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid #d1e7e1;
+  transition: all 0.3s ease;
+}
+
+.subscription-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(16, 185, 129, 0.08);
+}
+
+.status-badge {
+  background: #d1fae5;
+  color: #059669;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Progress Bar */
+.progress-custom {
+  height: 8px;
+  border-radius: 20px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.progress-custom-bar {
+  height: 100%;
+  background: #10b981;
+  transition: width 0.6s ease;
+}
+
+/* ===== DASHBOARD CARDS ===== */
+.dashboard-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.25s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+}
+
+/* ===== MENU ITEM ===== */
+.menu-item {
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  transition: all 0.25s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-item:hover {
+  background: #f3f4f6;
+  transform: translateX(5px);
+}
+
+/* ===== ICON CIRCLE ===== */
+.icon-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.icon-green {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.icon-yellow {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.icon-blue {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+/* ===== BUTTON SOFT STYLE ===== */
+.btn-soft {
+  background: #e6f4f1;
+  color: #059669;
+  border-radius: 14px;
+  padding: 10px 18px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-soft:hover {
+  background: #d1fae5;
+  transform: translateY(-2px);
+}
+.total-paid{
+  display: flex;
+  flex-direction: column;
+}
+.payments-amount{
+  display: flex;
+  justify-content: space-between;
+}

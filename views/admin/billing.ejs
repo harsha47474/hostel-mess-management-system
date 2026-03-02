@@ -1,0 +1,223 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="layout">
+
+  <%- include("../includes/adminSidebar", { active: "billing" }) %>
+
+  <div class="main bg-light-custom">
+
+    <%- include("../includes/adminNavbar") %>
+
+    <div class="container py-4">
+
+      <!-- ================= HEADER ================= -->
+      <div class="mb-4">
+        <h1 class="fw-bold">Billing Management</h1>
+        <p class="text-muted mb-0">
+          Approve requests and manage student payments
+        </p>
+      </div>
+
+      <!-- ================= STATS CARDS ================= -->
+      <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+          <div class="card stat-card">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-success-subtle text-success">
+                👥
+              </div>
+              <div>
+                <p class="text-muted mb-1">Active Subscriptions</p>
+                <h4 class="fw-bold mb-0"><%= activeCount %></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card stat-card">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-warning-subtle text-warning">
+                ⏳
+              </div>
+              <div>
+                <p class="text-muted mb-1">Pending Requests</p>
+                <h4 class="fw-bold mb-0"><%= requests.length %></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card stat-card">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-success-subtle text-success">
+                ₹
+              </div>
+              <div>
+                <p class="text-muted mb-1">Revenue (This Month)</p>
+                <h4 class="fw-bold mb-0">₹<%= monthlyRevenue %></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card stat-card">
+            <div class="d-flex align-items-center">
+              <div class="stat-icon bg-primary-subtle text-primary">
+                📈
+              </div>
+              <div>
+                <p class="text-muted mb-1">Revenue (Overall)</p>
+                <h4 class="fw-bold mb-0">₹<%= totalRevenue %></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ================= PENDING REQUESTS ================= -->
+
+      <div class="card shadow-sm rounded-4 mb-4">
+        <div class="card-body p-4">
+
+          <h5 class="fw-semibold">Pending Subscription Requests</h5>
+          <p class="text-muted small">
+            <%= requests.length %> request(s) awaiting review
+          </p>
+
+          <% if (requests.length === 0) { %>
+            <p>No pending requests.</p>
+          <% } else { %>
+
+            <div class="table-responsive">
+              <table class="table align-middle custom-table">
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Months</th>
+                    <th>Requested</th>
+                    <th>Amount</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <% requests.forEach(req => { %>
+                    <tr>
+                      <td class="fw-medium">
+                        <%= req.user.username %>
+                      </td>
+                      <td><%= req.months %></td>
+                      <td><%= req.createdAt?.toISOString().slice(0,10) %></td>
+                      <td>₹<%= req.months * 1500 %></td>
+
+                      <td class="text-end">
+
+                        <form action="/admins/billing/approve/<%= req._id %>" method="POST" class="d-inline">
+                          <button class="btn btn-success rounded-pill px-3">
+                            ✔ Approve
+                          </button>
+                        </form>
+
+                        <form action="/admins/billing/reject/<%= req._id %>" method="POST" class="d-inline ms-2">
+                          <button class="btn btn-danger rounded-pill px-3">
+                            ✖ Reject
+                          </button>
+                        </form>
+
+                      </td>
+                    </tr>
+                  <% }) %>
+
+                </tbody>
+              </table>
+            </div>
+
+          <% } %>
+        </div>
+      </div>
+
+
+      <!-- ================= ALL BILLS ================= -->
+
+      <div class="card shadow-sm rounded-4">
+        <div class="card-body p-4">
+
+          <h5 class="fw-semibold">Bills Management</h5>
+          <p class="text-muted small">
+            All student billing records
+          </p>
+
+          <% if (bills.length === 0) { %>
+            <p>No bills generated yet.</p>
+          <% } else { %>
+
+            <div class="table-responsive">
+              <table class="table align-middle custom-table">
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Subscription Period</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Payment Date</th>
+                    <th>Transaction ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <% bills.forEach(bill => { %>
+                    <tr>
+                      <td class="fw-medium">
+                        <%= bill.user.username %>
+                      </td>
+
+                      <td>
+                        <%= bill.startDate?.toISOString().slice(0,7) %> –
+                        <%= bill.endDate?.toISOString().slice(0,7) %>
+                      </td>
+
+                      <td>₹<%= bill.amount %></td>
+
+                      <td>
+                        <% if (bill.status === "paid") { %>
+                          <span class="badge rounded-pill status-paid">
+                            Paid
+                          </span>
+                        <% } else { %>
+                          <span class="badge rounded-pill status-pending">
+                            Pending
+                          </span>
+                        <% } %>
+                      </td>
+
+                      <td>
+                        <%= bill.paymentDate 
+                            ? bill.paymentDate.toISOString().slice(0,10)
+                            : "—" %>
+                      </td>
+
+                      <td>
+                        <%= bill.transactionId || "—" %>
+                      </td>
+                    </tr>
+                  <% }) %>
+
+                </tbody>
+              </table>
+            </div>
+
+          <% } %>
+
+        </div>
+      </div>
+
+    </div>
+    <%- include("../includes/footer") %>
+  </div>
+</div>

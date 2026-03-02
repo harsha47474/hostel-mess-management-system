@@ -1,0 +1,67 @@
+<% layout('layouts/boilerplate') -%>
+
+    <div class="layout">
+
+        <%- include("../includes/sidebar", { active: "attendance" }) %>
+
+            <div class="main">
+
+                <%- include("../includes/navbar", { user }) %>
+
+                    <div class="content attendance-page">
+
+                        <!-- Meal Header -->
+                        <div class="meal-header">
+                            <span class="meal-badge">🍽 Current Meal</span>
+                            <h1>
+                                <%= meal %>
+                            </h1>
+                        </div>
+
+                        <div class="attendance-card">
+
+                            <% if (approved) { %>
+
+                                <div class="approved-state">
+                                    <div class="success-icon">✔</div>
+                                    <h2>Attendance Approved</h2>
+                                    <p>You may enter the mess. Enjoy your meal!</p>
+                                </div>
+
+                                <% } else { %>
+
+                                    <div class="qr-box">
+                                        <img id="qrImage" src="<%= qrImage %>" />
+                                    </div>
+
+                                    <div class="expiry">
+                                        ⏳ Expires at: <%= expiresAt.toLocaleTimeString() %>
+                                    </div>
+
+                                    <h3 id="statusText" class="waiting">
+                                        Waiting for scan...
+                                    </h3>
+
+                                    <p class="hint">
+                                        Show this QR code in the mess scanner to mark your attendance for <b><%= meal %></b>. Once scanned, your attendance will be approved.
+                                    </p>
+
+                                    <script src="/js/qrStatus.js"></script>
+                                    <script>
+                                        const token = "<%= token %>";
+                                        initQrStatus(token);
+                                    </script>
+
+                                    <% } %>
+
+                        </div>
+
+                        <p class="footer-note">
+                            QR codes are valid for 15 minutes. A new code can be generated anytime.
+                        </p>
+
+                    </div>
+
+                    <%- include("../includes/footer") %>
+            </div>
+    </div>

@@ -1,0 +1,216 @@
+<% layout('layouts/boilerplate') -%>
+
+    <div class="layout">
+
+        <%- include("../includes/sidebar", { active: "billing" }) %>
+
+            <div class="main">
+
+                <%- include("../includes/navbar", { user }) %>
+
+                    <div class="content billing-page">
+
+                        <!-- ================= HEADER ================= -->
+                        <div class="page-header">
+                            <div>
+                                <h1>Mess Billing Dashboard</h1>
+                                <p>Manage your subscription and payments</p>
+                            </div>
+
+                            <% if (user.messStatus==="active" ) { %>
+                                <span class="status-pill active">● Active Subscription</span>
+                                <% } %>
+                        </div>
+
+                        <!-- ================= TOP SECTION ================= -->
+                        <div class="billing-top">
+
+                            <!-- ===== Subscription Status Card ===== -->
+                            <div class="billing-card">
+
+                                <h3>Subscription Status</h3>
+
+                                <% if (user.messStatus==="active" ) { %>
+
+                                    <div class="status-grid">
+                                        <div class="status-box">
+                                            <p>Status</p>
+                                            <strong>Active</strong>
+                                        </div>
+
+                                        <div class="status-box">
+                                            <p>Valid From</p>
+                                            <strong>
+                                                <%= user.messSubscription?.startDate?.toDateString() %>
+                                            </strong>
+                                        </div>
+
+                                        <div class="status-box">
+                                            <p>Valid Till</p>
+                                            <strong>
+                                                <%= user.messSubscription?.endDate?.toDateString() %>
+                                            </strong>
+                                        </div>
+                                    </div>
+
+                                    <% const today=new Date(); const diff=new Date(user.messSubscription.endDate) -
+                                        today; const daysLeft=Math.ceil(diff / (1000 * 60 * 60 * 24)); const
+                                        totalDays=90; const percent=(daysLeft / totalDays) * 100; %>
+
+                                        <div class="progress-wrapper">
+                                            <div class="progress-label">
+                                                Days Remaining
+                                                <span>
+                                                    <%= daysLeft> 0 ? daysLeft : 0 %> / <%= totalDays %> days
+                                                </span>
+                                            </div>
+                                            <div class="progress-bar">
+                                                <div class="progress-fill" style="width:<%= percent %>%"></div>
+                                            </div>
+                                        </div>
+
+                                        <% } else { %>
+                                            <p>No active subscription.</p>
+                                            <% } %>
+
+                            </div>
+
+
+                            <!-- ===== Apply Subscription Card ===== -->
+                            <div class="billing-card">
+
+                                <h3>Apply for Subscription</h3>
+
+                                <% if (existingRequest) { %>
+
+                                    <div class="alert-box">
+                                        You already have a pending request.
+                                    </div>
+
+                                    <% } else if (canApply) { %>
+
+                                        <form action="/student/request-mess" method="POST" class="apply-form">
+
+                                            <label>Number of Months</label>
+                                            <input type="number" name="months" min="1" placeholder="e.g. 3" required>
+
+                                            <button class="primary-btn">
+                                                Apply Now
+                                            </button>
+
+                                        </form>
+
+                                        <% } %>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ================= BILLING HISTORY ================= -->
+                        <div class="billing-history">
+
+                            <h3>Billing History</h3>
+
+                            <% if (bills.length===0) { %>
+                                <p>No billing records found.</p>
+                                <% } else { %>
+
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <% bills.forEach(bill=> { %>
+                                                <tr>
+                                                    <td>
+                                                        <%= bill.startDate?.toDateString() %>
+                                                    </td>
+                                                    <td>
+                                                        <%= bill.endDate?.toDateString() %>
+                                                    </td>
+                                                    <td>₹<%= bill.amount %>
+                                                    </td>
+
+                                                    <td>
+                                                        <% if (bill.status==="paid" ) { %>
+                                                            <span class="badge paid">Paid</span>
+                                                            <% } else { %>
+                                                                <span class="badge pending">Pending</span>
+                                                                <% } %>
+                                                    </td>
+
+                                                    <td>
+                                                        <% if (bill.status==="paid" ) { %>
+                                                            <button class="receipt-btn"
+                                                                onclick="showReceipt('<%= bill._id %>')">
+                                                                View Receipt
+                                                            </button>
+                                                            <% } else { %>
+                                                                <form action="/student/pay/<%= bill._id %>"
+                                                                    method="POST" class="pay-form">
+                                                                    <button class="pay-btn">Pay Now</button>
+                                                                </form>
+                                                                <% } %>
+                                                    </td>
+
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+
+                                    <% } %>
+
+                        </div>
+
+
+                        <!-- ================= RECEIPT MODAL ================= -->
+
+                        <!-- ================= RECEIPT MODAL ================= -->
+                        <div id="receiptModal" class="receipt-overlay">
+                            <div class="receipt-modal">
+
+                                <div class="receipt-header">
+                                    <div class="receipt-title">
+                                        <div class="receipt-icon">💵</div>
+                                        <div>
+                                            <h3>Payment Receipt</h3>
+                                            <p>Transaction details</p>
+                                        </div>
+                                    </div>
+
+                                    <button class="close-btn" onclick="closeReceipt()">×</button>
+                                </div>
+
+                                <div class="receipt-divider"></div>
+
+                                <div class="receipt-body" id="receiptContent">
+                                    <!-- Filled dynamically -->
+                                </div>
+
+                                <div class="receipt-divider"></div>
+
+                                <button id="downloadBtn" class="download-btn">
+                                    ⬇ Download Receipt
+                                </button>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <%- include("../includes/footer") %>
+            </div>
+    </div>
+
+<script>
+  const billsData = <%- JSON.stringify(bills) %>;
+</script>
+<script src="/js/billReciept.js"></script>

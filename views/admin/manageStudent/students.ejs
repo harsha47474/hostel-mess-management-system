@@ -1,0 +1,279 @@
+<% layout('layouts/boilerplate') -%>
+
+    <div class="layout">
+
+        <%- include("../../includes/adminSidebar", { active: "students" }) %>
+
+            <div class="main bg-light-custom">
+
+                <%- include("../../includes/adminNavbar") %>
+                    <div class="container mt-4">
+
+                        <div class="mb-4">
+                            <div class="page-title">Student Management</div>
+                            <div class="page-subtitle">
+                                Manage student profiles and subscription details
+                            </div>
+                        </div>
+
+                        <!-- 🔍 SEARCH + FILTER + ADD -->
+                        <div class="search-card mb-4">
+                            <form method="GET" action="/admins/students" class="row g-3 align-items-center">
+
+                                <div class="col-md-5">
+                                    <input type="text" name="search" value="<%= search || '' %>" class="form-control"
+                                        placeholder="Search by name, email, or phone">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <select name="filter" class="form-select">
+                                        <option value="">All Students</option>
+                                        <option value="active" <%=filter==="active" ?"selected":"" %>>Active</option>
+                                        <option value="expired" <%=filter==="expired" ?"selected":"" %>>Expired</option>
+                                        <option value="expiring" <%=filter==="expiring" ?"selected":"" %>>Expiring Soon
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button class="btn btn-dark w-100">Apply</button>
+                                </div>
+
+                                <div class="col-md-2 text-end">
+                                    <button type="button" class="btn btn-green w-100" data-bs-toggle="modal"
+                                        data-bs-target="#addStudentModal">
+                                        + Add Student
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <!-- 📋 STUDENTS TABLE -->
+                        <div class="custom-table">
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Status</th>
+                                            <th>Expiry Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <% students.forEach(student=> { %>
+
+                                            <tr>
+                                                <td>
+                                                    <%= student.username %>
+                                                </td>
+                                                <td>
+                                                    <%= student.email %>
+                                                </td>
+                                                <td>
+                                                    <%= student.phone || "-" %>
+                                                </td>
+
+                                                <td>
+                                                    <% if (student.messStatus==="active" ) { %>
+                                                        <span class="badge-pill badge-active">Active</span>
+                                                        <% } else { %>
+                                                            <span class="badge-pill badge-inactive">Inactive</span>
+                                                            <% } %>
+                                                </td>
+
+                                                <td>
+                                                    <%= student.messSubscription?.endDate ? new
+                                                        Date(student.messSubscription.endDate).toDateString() : "-" %>
+                                                </td>
+
+                                                <td>
+
+                                                    <!-- Edit Button -->
+                                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#editModal<%= student._id %>">
+                                                        Edit
+                                                    </button>
+
+                                                    <!-- Delete -->
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                        data-id="<%= student._id %>"
+                                                        data-name="<%= student.username %>">
+                                                        Delete
+                                                    </button>
+
+                                                </td>
+                                            </tr>
+
+                                            <% }) %>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+
+            <!-- ================= ADD STUDENT MODAL ================= -->
+            <div class="modal fade" id="addStudentModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <form action="/admins/students/add" method="POST">
+
+                            <div class="modal-header">
+                                <div>
+                                    <h5 class="modal-title">Add New Student</h5>
+                                    <div class="modal-subtitle">
+                                        Create a new student profile. Status will be set to Inactive by default.
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <label class="form-label">Name *</label>
+                                <input name="username" class="form-control mb-3" placeholder="Full name" required>
+                                <label class="form-label">Roll Number *</label>
+                                <input name="rollNumber" class="form-control mb-3" placeholder="Roll Number" required>
+
+                                <label class="form-label">Email *</label>
+                                <input name="email" type="email" class="form-control mb-3"
+                                    placeholder="student@example.com" required>
+
+                                <label class="form-label">Password *</label>
+                                <input name="password" type="password" class="form-control mb-3"
+                                    placeholder="Initial password" required>
+
+                                <label class="form-label">Food Preference</label>
+                                <select name="foodPreference" class="form-select mb-3">
+                                    <option value="Veg">Veg</option>
+                                    <option value="Non-Veg">Non-Veg</option>
+                                </select>
+
+                                <div class="modal-note">
+                                    💡 Students are activated after bill payment.
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                <button class="btn btn-green">Add Student</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ================= EDIT MODALS ================= -->
+            <% students.forEach(student=> { %>
+
+                <div class="modal fade" id="editModal<%= student._id %>">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <form action="/admins/students/update/<%= student._id %>" method="POST">
+
+                                <div class="modal-header">
+                                    <div>
+                                        <h5 class="modal-title">Edit Student</h5>
+                                        <div class="modal-subtitle">
+                                            Update student profile details.
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <label class="form-label">Name</label>
+                                    <input name="username" value="<%= student.username %>" class="form-control mb-3">
+
+                                    <label class="form-label">Email</label>
+                                    <input name="email" value="<%= student.email %>" class="form-control mb-3">
+
+                                    <label class="form-label">Food Preference</label>
+                                    <select name="foodPreference" class="form-select mb-3">
+                                        <option value="Veg" <%=student.foodPreference==="Veg" ?"selected":"" %>>Veg
+                                        </option>
+                                        <option value="Non-Veg" <%=student.foodPreference==="Non-Veg" ?"selected":"" %>
+                                            >Non-Veg</option>
+                                    </select>
+
+                                    <label class="form-label">Subscription Expiry Date</label>
+                                    <input type="date" name="endDate"
+                                        value="<%= student.messSubscription?.endDate ? new Date(student.messSubscription.endDate).toISOString().split('T')[0] : '' %>"
+                                        class="form-control">
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-green">Save Changes</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <% }) %>
+
+                    <!-- ===== DELETE CONFIRM MODAL ===== -->
+                    <div class="modal fade" id="deleteModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <form id="deleteForm" method="POST">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-danger">Confirm Delete</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+
+                                        <p class="mb-2">
+                                            Are you sure you want to delete
+                                            <strong id="studentName"></strong>?
+                                        </p>
+
+                                        <div class="alert alert-danger p-2 small mb-0">
+                                            This action cannot be undone.
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                                            Cancel
+                                        </button>
+
+                                        <button type="submit" class="btn btn-danger">
+                                            Yes, Delete
+                                        </button>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+    </div>
+    </div>
+
+    <script src="/js/deleteStudentConfirm.js"></script>
