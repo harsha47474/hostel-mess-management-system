@@ -1,0 +1,107 @@
+<% layout('layouts/boilerplate') -%>
+
+<div class="layout">
+  <%- include("../includes/adminSidebar", { active: "auditLogs" }) %>
+
+  <div class="main bg-light-custom">
+    <%- include("../includes/adminNavbar") %>
+
+    <div class="page-content">
+      <div class="container py-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+          <div>
+            <h2 class="fw-bold mb-1">Audit Logs</h2>
+            <div class="text-muted">QR scan attempts (accepted / rejected / duplicate)</div>
+          </div>
+          <div class="d-flex gap-2 flex-wrap">
+            <a href="/admins/analytics" class="btn btn-outline-dark btn-sm">
+              <i class="bi bi-graph-up-arrow me-1"></i>
+              Analytics
+            </a>
+            <a href="/admins/scan" class="btn btn-primary btn-sm">
+              <i class="bi bi-qr-code-scan me-1"></i>
+              Open Scanner
+            </a>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div class="text-muted small">
+              Total logs: <strong><%= total %></strong>
+            </div>
+            <div class="text-muted small">
+              Page <strong><%= page %></strong> of <strong><%= totalPages %></strong>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead>
+                <tr class="text-muted small">
+                  <th>Time</th>
+                  <th>Student</th>
+                  <th>Meal</th>
+                  <th>Status</th>
+                  <th>Reason</th>
+                  <th>Scanner</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (!logs.length) { %>
+                  <tr>
+                    <td colspan="6" class="text-muted">No logs found.</td>
+                  </tr>
+                <% } %>
+
+                <% logs.forEach(log => { %>
+                  <tr>
+                    <td class="text-muted small">
+                      <%= log.scannedAt ? new Date(log.scannedAt).toLocaleString() : new Date(log.createdAt).toLocaleString() %>
+                    </td>
+                    <td class="fw-semibold"><%= log.studentName || log.target || "unknown" %></td>
+                    <td><%= log.mealType || "-" %></td>
+                    <td>
+                      <% if (log.scanStatus === "accepted") { %>
+                        <span class="badge bg-success">accepted</span>
+                      <% } else if (log.scanStatus === "duplicate") { %>
+                        <span class="badge bg-warning text-dark">duplicate</span>
+                      <% } else { %>
+                        <span class="badge bg-danger">rejected</span>
+                      <% } %>
+                    </td>
+                    <td class="text-muted small"><%= log.reason || "-" %></td>
+                    <td class="text-muted small"><%= log.scannerName || log.performedBy || "-" %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div class="text-muted small">
+              Showing <%= logs.length %> logs
+            </div>
+            <div class="d-flex gap-2">
+              <% if (page > 1) { %>
+                <a class="btn btn-outline-secondary btn-sm" href="/admins/audit-logs?page=<%= page - 1 %>">
+                  <i class="bi bi-chevron-left"></i>
+                  Prev
+                </a>
+              <% } %>
+              <% if (page < totalPages) { %>
+                <a class="btn btn-outline-secondary btn-sm" href="/admins/audit-logs?page=<%= page + 1 %>">
+                  Next
+                  <i class="bi bi-chevron-right"></i>
+                </a>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include("../includes/footer") %>
+  </div>
+</div>
+
