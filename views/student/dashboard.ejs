@@ -6,7 +6,8 @@
   <div class="main student-bg">
     <%- include("../includes/navbar", { user }) %>
 
-    <div class="container mt-4">
+    <div class="page-content">
+      <div class="container mt-4">
 
       <!-- ================= WELCOME ================= -->
       <div class="mb-4">
@@ -82,8 +83,8 @@
                   <div class="fw-semibold">
                     ₹<%= lastBill.amount %>
                   </div>
-              <% } %>
               </div>
+            <% } %>
             </div>
 
             <div class="mt-3">
@@ -160,6 +161,7 @@
 
       </div>
 
+      </div>
     </div>
     <%- include("../includes/footer") %>
   </div>

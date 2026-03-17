@@ -8,12 +8,30 @@
 
                 <%- include("../includes/adminNavbar") %>
 
-                    <div class="container mt-4">
+                    <div class="page-content">
+                        <div class="container mt-4">
 
-                        <div class="mb-4">
-                            <div class="dashboard-title">Admin Dashboard</div>
-                            <div class="dashboard-subtitle">
-                                Overview of your hostel mess operations
+                        <div class="mb-4 d-flex flex-wrap align-items-end justify-content-between gap-3">
+                            <div>
+                                <div class="dashboard-title">Admin Dashboard</div>
+                                <div class="dashboard-subtitle mb-0">
+                                    Overview of your hostel mess operations
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+                                <a href="/admins/students" class="btn btn-primary btn-sm px-3">
+                                    <i class="bi bi-people me-1"></i>
+                                    Manage Students
+                                </a>
+                                <a href="/admins/menu" class="btn btn-outline-dark btn-sm px-3">
+                                    <i class="bi bi-card-list me-1"></i>
+                                    Update Menu
+                                </a>
+                                <a href="/admins/billing" class="btn btn-outline-success btn-sm px-3">
+                                    <i class="bi bi-receipt me-1"></i>
+                                    Billing
+                                </a>
                             </div>
                         </div>
 
@@ -156,6 +174,7 @@
 
                         </div>
 
+                        </div>
                     </div>
                     <%- include("../includes/footer") %>
 
@@ -165,14 +184,22 @@
     <!-- ================= CHART.JS CDN ================= -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <script type="application/json" id="revenueLabelsJson"><%- JSON.stringify(labels) %></script>
+    <script type="application/json" id="revenueDataJson"><%- JSON.stringify(revenueData) %></script>
+    <script type="application/json" id="foodCountsJson"><%- JSON.stringify({ veg: vegCount, nonVeg: nonVegCount }) %></script>
+
     <script>
+        const revenueLabels = JSON.parse(document.getElementById('revenueLabelsJson').textContent);
+        const revenueSeries = JSON.parse(document.getElementById('revenueDataJson').textContent);
+        const foodCounts = JSON.parse(document.getElementById('foodCountsJson').textContent);
+
         // ===== REVENUE LINE =====
         new Chart(document.getElementById('revenueChart'), {
             type: 'line',
             data: {
-                labels: <%- JSON.stringify(labels) %>,
+                labels: revenueLabels,
                 datasets: [{
-                    data: <%- JSON.stringify(revenueData) %>,
+                    data: revenueSeries,
                     borderColor: '#10b981',
                     backgroundColor: 'rgba(16,185,129,0.12)',
                     borderWidth: 3,
@@ -213,7 +240,7 @@
             data: {
                 labels: ['Veg', 'Non-Veg'],
                 datasets: [{
-                    data: [<%= vegCount %>, <%= nonVegCount %>],
+                    data: [foodCounts.veg, foodCounts.nonVeg],
                     backgroundColor: ['#22c55e', '#ef4444'],
                     borderWidth: 0,
                     hoverOffset: 12

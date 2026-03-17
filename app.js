@@ -51,7 +51,7 @@ app.use(flash());
 
 
 app.get('/', (req,res)=>{
-    res.send("Hostel Mess Management System");
+    res.redirect("/login");
 })
 
 

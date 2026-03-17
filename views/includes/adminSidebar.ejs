@@ -1,6 +1,6 @@
 <div class="sidebar">
   <div class="sidebar-header">
-    <div class="logo">🍴</div>
+    <div class="logo" aria-hidden="true"><i class="bi bi-cup-hot"></i></div>
     <div>
       <strong>Hostel Mess</strong><br />
       <span>Management System</span>
@@ -10,29 +10,47 @@
   <p class="nav-title">Navigation</p>
 
   <ul class="nav-list">
-  <li class="<%= active === 'dashboard' ? 'active' : '' %>">
-    <a href="/admins/dashboard">🏠 Dashboard</a>
-  </li>
+    <li class="<%= active === 'dashboard' ? 'active' : '' %>">
+      <a href="/admins/dashboard">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-grid-1x2"></i></span>
+        Dashboard
+      </a>
+    </li>
 
-  <li class="<%= active === 'students' ? 'active' : '' %>">
-    <a href="/admins/students">👥 Students</a>
-  </li>
+    <li class="<%= active === 'students' ? 'active' : '' %>">
+      <a href="/admins/students">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-people"></i></span>
+        Students
+      </a>
+    </li>
 
-  <li class="<%= active === 'menu' ? 'active' : '' %>">
-    <a href="/admins/menu">🍽️ Menu</a>
-  </li>
+    <li class="<%= active === 'menu' ? 'active' : '' %>">
+      <a href="/admins/menu">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-card-list"></i></span>
+        Menu
+      </a>
+    </li>
 
-  <li class="<%= active === 'attendance' ? 'active' : '' %>">
-    <a href="/admins/scan">📅 Attendance</a>
-  </li>
+    <li class="<%= active === 'attendance' ? 'active' : '' %>">
+      <a href="/admins/scan">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-qr-code-scan"></i></span>
+        Attendance
+      </a>
+    </li>
 
-  <li class="<%= active === 'billing' ? 'active' : '' %>">
-    <a href="/admins/billing">💰 Bill Tracking</a>
-  </li>
+    <li class="<%= active === 'billing' ? 'active' : '' %>">
+      <a href="/admins/billing">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-receipt"></i></span>
+        Bill Tracking
+      </a>
+    </li>
 
-  <li class="<%= active === 'complaints' ? 'active' : '' %>">
-    <a href="/admins/complaints">💬 Complaints</a>
-  </li>
-</ul>
+    <li class="<%= active === 'complaints' ? 'active' : '' %>">
+      <a href="/admins/complaints">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-chat-dots"></i></span>
+        Complaints
+      </a>
+    </li>
+  </ul>
 
 </div>

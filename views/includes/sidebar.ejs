@@ -1,6 +1,6 @@
 <div class="sidebar">
   <div class="sidebar-header">
-    <div class="logo">🍴</div>
+    <div class="logo" aria-hidden="true"><i class="bi bi-cup-hot"></i></div>
     <div>
       <strong>Hostel Mess</strong><br />
       <span>Management System</span>
@@ -10,25 +10,40 @@
   <p class="nav-title">Navigation</p>
 
   <ul class="nav-list">
-  <li class="<%= active === 'dashboard' ? 'active' : '' %>">
-    <a href="/students/dashboard">🏠 Dashboard</a>
-  </li>
+    <li class="<%= active === 'dashboard' ? 'active' : '' %>">
+      <a href="/students/dashboard">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-grid-1x2"></i></span>
+        Dashboard
+      </a>
+    </li>
 
-  <li class="<%= active === 'menu' ? 'active' : '' %>">
-    <a href="/student/menu">🍽️ Mess Menu</a>
-  </li>
+    <li class="<%= active === 'menu' ? 'active' : '' %>">
+      <a href="/student/menu">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-card-list"></i></span>
+        Mess Menu
+      </a>
+    </li>
 
-  <li class="<%= active === 'attendance' ? 'active' : '' %>">
-    <a href="/student/generate-qr">📅 Attendance</a>
-  </li>
+    <li class="<%= active === 'attendance' ? 'active' : '' %>">
+      <a href="/student/generate-qr">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-qr-code"></i></span>
+        Attendance
+      </a>
+    </li>
 
-  <li class="<%= active === 'billing' ? 'active' : '' %>">
-    <a href="/student/billing">💰 Bill Tracking</a>
-  </li>
+    <li class="<%= active === 'billing' ? 'active' : '' %>">
+      <a href="/student/billing">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-receipt"></i></span>
+        Bill Tracking
+      </a>
+    </li>
 
-  <li class="<%= active === 'complaints' ? 'active' : '' %>">
-    <a href="/student/complaints">💬 Complaints</a>
-  </li>
-</ul>
+    <li class="<%= active === 'complaints' ? 'active' : '' %>">
+      <a href="/student/complaints">
+        <span class="nav-ico" aria-hidden="true"><i class="bi bi-chat-dots"></i></span>
+        Complaints
+      </a>
+    </li>
+  </ul>
 
 </div>
