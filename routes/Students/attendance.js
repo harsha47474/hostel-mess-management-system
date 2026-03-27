@@ -74,10 +74,6 @@ router.get("/generate-qr", isLoggedIn, isStudent, isMessActive, wrapAsync(async 
     await qrToken.save();
 
     const qrImage = await QRCode.toDataURL(token);
-    console.log(user);
-
-    console.log(qrToken);
-    console.log(token)
 
     res.render("student/attendance", {
         user,
