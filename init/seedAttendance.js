@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
-const Attendance = require('../models/attendance'); 
-const User = require('../models/user'); 
+const Attendance = require('../models/attendance');
+const User = require('../models/user');
+const connectDB = require('../config/db');
 
 async function seedAttendance() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/hostel_mess_management');
+  await connectDB();
 
-  const student = await User.findOne({ email:"student1@hostel.com" }); 
+  const student = await User.findOne({ email: "student1@hostel.com" });
   console.log(student);
 
   const year = 2026;
-  const month = 0; 
+  const month = 0;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
 

@@ -2,17 +2,15 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const passportLocalMongoose = require('passport-local-mongoose').default;
 
-const MONGO_URL = "mongodb://localhost:27017/hostel_mess_management";
+const connectDB = require('../config/db');
+
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    await connectDB();
 }
 
 main()
     .then(() => {
-        console.log("Connected to MongoDB");
         seedUsers();
-    }).catch(err => {
-        console.error("Failed to connect to MongoDB", err);
     });
 
 

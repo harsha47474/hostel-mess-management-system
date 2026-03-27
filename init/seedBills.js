@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const Bill = require("../models/bills");
 const User = require("../models/user");
 
-mongoose.connect("mongodb://127.0.0.1:27017/hostel_mess_management")
-    .then(() => console.log("MongoDB Connected"))
-    .catch(err => console.log(err));
+const connectDB = require("../config/db");
+
+connectDB();
 
 const seedBills = async () => {
     try {

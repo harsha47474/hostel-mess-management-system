@@ -84,6 +84,7 @@ router.get("/generate-qr", isLoggedIn, isStudent, isMessActive, wrapAsync(async 
         qrImage,
         meal,
         expiresAt,
+        token,
         approved:false
     });
 }));

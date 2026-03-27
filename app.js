@@ -1,4 +1,13 @@
+require('dotenv').config();
+
+if (!process.env.MONGODB_URI || !process.env.SESSION_SECRET) {
+    console.error("FATAL ERROR: MONGODB_URI or SESSION_SECRET is not defined in the environment.");
+    process.exit(1);
+}
+
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
 const session = require('express-session');
 const User = require('./models/user');
 const app = express();
@@ -23,12 +32,13 @@ const billingAdminRoute = require('./routes/admins/billing')
 const adminComplaintsRoutes = require('./routes/admins/complaints');
 const adminAnalyticsRoutes = require('./routes/admins/analytics');
 
-connectDB();
 
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 app.engine('ejs', ejsMate);
+app.use(helmet({ contentSecurityPolicy: false })); // Disabled CSP to avoid breaking inline scripts/CDNs unexpectedly
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -39,7 +49,7 @@ app.use(methodOverride('_method'));
 
 
 app.use(session({
-    secret: "secret-key",
+    secret: process.env.SESSION_SECRET || "default-fallback-secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -87,9 +97,14 @@ app.use("/admins", adminAnalyticsRoutes);
 
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong!" } = err;
+    if (process.env.NODE_ENV === 'production' && statusCode === 500) {
+        message = "Internal Server Error";
+    }
     res.status(statusCode).send(message);
 });
 
-app.listen(port,()=>{
-    console.log(`Server is running on http://localhost:${port}`);
-})
+connectDB().then(() => {
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
+});

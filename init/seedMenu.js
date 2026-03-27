@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const MessMenu = require('../models/menu');
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/hostel_mess_management";
+const connectDB = require('../config/db');
 
 async function seedMenu() {
   try {
-    await mongoose.connect(MONGO_URL);
+    await connectDB();
 
     // Clear existing menu
     await MessMenu.deleteMany({});
