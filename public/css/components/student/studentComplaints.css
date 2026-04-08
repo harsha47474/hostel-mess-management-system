@@ -116,3 +116,6 @@
   cursor: pointer;
   margin-left: 10px;
 }
+/* ::backdrop{
+  background: rgba(0,0,0,0.5);
+} */
